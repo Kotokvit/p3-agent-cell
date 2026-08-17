@@ -1,7 +1,7 @@
 {
-  "id": "832b5c3e",
-  "cmd": "echo \"=== Gitea Version ===\" && curl -s http://localhost:3000/api/v1/version && echo \"\" && echo \"=== Gitea Settings ===\" && curl -s http://localhost:3000/api/v1/settings/api && echo \"\" && echo \"=== Gitea Repos ===\" && curl -s -H \"Authorization: token 4d4cfffee333b6a83fd350dd8a5dd11cccdcddc7\" http://localhost:3000/api/v1/repos/search && echo \"\"",
-  "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
+  "id": "p3-1786956527",
+  "cmd": "ls -la ~/Документи/p3_bridge_client_v4.py 2>/dev/null && echo V4_EXISTS || echo V4_MISSING",
+  "cwd": "/home/vitalij",
   "timeout": 10,
-  "ts": 1786954885.9750369
+  "ts": 1786956527.9956977
 }
