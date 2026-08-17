@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786954826",
-  "cmd": "echo V4_READY && python3 -c \"import sys; print(sys.version)\" && curl -s http://localhost:3000/api/v1/version",
-  "cwd": "/home/vitalij",
+  "id": "f84d46f2",
+  "cmd": "echo 'Bridge v4 works!' && date",
+  "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
   "timeout": 10,
-  "ts": 1786954826.1077027
+  "ts": 1786954841.959451
 }
