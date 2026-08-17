@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786952609",
-  "cmd": "echo '=== DB files ===' && ls -la /var/lib/gitea/data/ 2>/dev/null && echo '=== Install lock ===' && sudo cat /etc/gitea/app.ini | grep INSTALL_LOCK && echo '=== Full active config ===' && sudo cat /e",
-  "stdout": "=== DB files ===\n",
+  "id": "p3-1786952700",
+  "cmd": "curl -sS http://localhost:3000/api/v1/repos/search 2>&1 | head -c 300",
+  "stdout": "Not Found. <a href=\"/\">Go to default page</a>.",
   "stderr": "",
-  "returncode": 2,
-  "timestamp": "2026-08-17T10:43:33"
+  "returncode": 0,
+  "timestamp": "2026-08-17T10:45:27"
 }
