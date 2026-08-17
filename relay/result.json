@@ -1,8 +1,8 @@
 {
   "id": "de52e0b1",
   "cmd": "echo OK",
-  "stdout": "OK\n",
-  "stderr": "",
-  "returncode": 0,
-  "timestamp": "2026-08-17T14:10:35"
+  "stdout": "",
+  "stderr": "HTTP Error 409: Conflict",
+  "returncode": -1,
+  "timestamp": "2026-08-17T14:10:38"
 }
