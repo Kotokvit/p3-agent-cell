@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786953296",
-  "cmd": "sudo gitea admin user create --admin --username p3admin --password P3Gitea2024xSecure --email p3admin@localhost -c /etc/gitea/app.ini 2>&1",
-  "stdout": "2026/08/17 10:55:05 modules/setting/setting.go:196:mustNotRunAsRoot() [F] Gitea is not supposed to be run as root. If you need to use privileged TCP ports please instead use `setcap` and the `cap_net_bind_service` permission.\n",
-  "stderr": "",
-  "returncode": 1,
-  "timestamp": "2026-08-17T10:55:05"
+  "id": "p3-1786953318",
+  "cmd": "sudo -u gitea gitea admin user create --admin --username p3admin --password P3Gitea2024xSecure --email p3admin@localhost -c /etc/gitea/app.ini 2>&1",
+  "stdout": "",
+  "stderr": "Timeout 15s",
+  "returncode": -1,
+  "timestamp": "2026-08-17T10:58:39"
 }
