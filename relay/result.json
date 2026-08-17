@@ -1,8 +1,8 @@
 {
-  "id": "47d025df",
-  "cmd": "echo '=== Gitea Setup ===' && GITEA_TOKEN='4d4cfffee333b6a83fd350dd8a5dd11cccdcddc7' && echo 'Version:' && curl -s http://localhost:3000/api/v1/version && echo '' && echo 'Repos:' && curl -s -H \"Autho",
-  "stdout": "=== Gitea Setup ===\nVersion:\n{\"version\":\"1.27.2\"}\nRepos:\n  p3admin/p3-relay\n\nUser:\n  @p3admin (id=1)\n",
+  "id": "1c894f57",
+  "cmd": "GITEA_TOKEN='4d4cfffee333b6a83fd350dd8a5dd11cccdcddc7' && echo '=== Gitea Relay Files ===' && curl -s -H \"Authorization: token $GITEA_TOKEN\" 'http://localhost:3000/api/v1/repos/p3admin/p3-relay/conten",
+  "stdout": "=== Gitea Relay Files ===\n  test.json (41b)\n",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T14:56:07"
+  "timestamp": "2026-08-17T14:56:28"
 }
