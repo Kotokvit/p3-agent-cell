@@ -1,8 +1,8 @@
 {
-  "id": "290db4c0",
-  "cmd": "echo \"=== SYSTEM ===\" && uname -a && echo \"=== CPU ===\" && nproc && echo \"=== RAM ===\" && free -h | head -2 && echo \"=== GPU ===\" && nvidia-smi --query-gpu=name,memory.used,memory.total --format=csv,n",
-  "stdout": "=== SYSTEM ===\nLinux cachyos-x8664 7.1.3-2-cachyos #1 SMP PREEMPT_DYNAMIC Thu, 09 Jul 2026 18:16:10 +0000 x86_64 GNU/Linux\n=== CPU ===\n8\n=== RAM ===\n               загалом      використ.   вільна    спільна буфери/кеш   дост.\nПам.:           15Gi       8,5Gi       6,5Gi       148Mi       1,2Gi       7,0Gi\n=== GPU ===\nNVIDIA GeForce GTX 1060 6GB, 1681 MiB, 6144 MiB\n=== DISK ===\n/dev/sdb3       436G  178G  236G  43% /\n=== DOCKER ===\np3-agent-cell: Up 6 hours\n=== GITEA ===\n{\"version\":\"1.27.2\"}",
+  "id": "90594ce7",
+  "cmd": "echo '=== P3 Bridge v5 Test ===' && python3 --version && pip --version 2>/dev/null || echo 'pip not found' && which docker && docker --version",
+  "stdout": "=== P3 Bridge v5 Test ===\nPython 3.14.6\npip 26.2.1 from /usr/lib/python3.14/site-packages/pip (python 3.14)\n/usr/bin/docker\nDocker version 29.7.2, build a7dcaa6fdb\n",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T14:16:13"
+  "timestamp": "2026-08-17T14:31:34"
 }
