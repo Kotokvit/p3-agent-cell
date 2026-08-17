@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786953143",
-  "cmd": "sudo cp /etc/gitea/app.ini /etc/gitea/app.ini.bak && echo BACKUP_OK",
+  "id": "p3-1786953159",
+  "cmd": "sudo bash -c 'sed -i \"s/DB_TYPE = mysql/DB_TYPE = sqlite3/\" /etc/gitea/app.ini && sed -i \"s|HOST = 127.0.0.1:3306.*|PATH = /var/lib/gitea/data/gitea.db|\" /etc/gitea/app.ini && sed -i \"s/INSTALL_LOCK = false/INSTALL_LOCK = true/\" /etc/gitea/app.ini && echo SED_OK' && echo DONE",
   "cwd": "/home/vitalij",
   "timeout": 10,
-  "ts": 1786953143.9469378
+  "ts": 1786953159.1604328
 }
