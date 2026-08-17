@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786952171",
-  "cmd": "curl -s -X POST http://localhost:3000/install -H 'Content-Type: application/x-www-form-urlencoded' --data-urlencode db_type=SQLite3 --data-urlencode db_path=/var/lib/gitea/data/gitea.db --data-urlencode app_name=P3Gitea --data-urlencode repo_root_path=/var/lib/gitea/repositories --data-urlencode lfs_root_path=/var/lib/gitea/data/lfs --data-urlencode run_user=gitea --data-urlencode domain=localhost --data-urlencode ssh_port=22 --data-urlencode http_port=3000 --data-urlencode 'app_url=http://localhost:3000/' --data-urlencode log_root_path=/var/lib/gitea/log --data-urlencode admin_name=p3admin --data-urlencode admin_passwd=P3Gitea2024xSecure --data-urlencode admin_email=p3admin@localhost -w ' HTTP_CODE:%{http_code}' 2>&1 | tail -c 500",
+  "id": "p3-1786952192",
+  "cmd": "echo '=== Gitea version ===' && gitea --version 2>/dev/null && echo '=== Config check ===' && ls -la /etc/gitea/ 2>/dev/null && cat /etc/gitea/app.ini 2>/dev/null | head -30 && echo '=== Service status ===' && sudo systemctl status gitea 2>/dev/null | head -15 && echo '=== Data dir ===' && ls -la /var/lib/gitea/ 2>/dev/null | head -10",
   "cwd": "/home/vitalij",
-  "timeout": 30,
-  "ts": 1786952171.0410404
+  "timeout": 20,
+  "ts": 1786952192.0632033
 }
