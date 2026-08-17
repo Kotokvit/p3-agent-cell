@@ -1,7 +1,7 @@
 {
-  "id": "b5386b76",
-  "cmd": "\n# Start gitea via systemd\nsudo systemctl enable gitea\nsudo systemctl start gitea\nsleep 3\nsudo systemctl status gitea --no-pager | head -15\necho '---'\n# Test if it's responding\ncurl -s http://localhost:3000/ -o /dev/null -w 'HTTP %{http_code}' 2>&1\necho ''\ncurl -s http://localhost:3000/api/v1/version 2>&1\n",
+  "id": "45b7f37e",
+  "cmd": "\n# Gitea first-run setup via API\n# Create admin user\ncurl -s -X POST 'http://localhost:3000/api/v1/admin/users'   -H 'Content-Type: application/json'   -d '{\n    \"username\": \"p3admin\",\n    \"password\": \"p3agentcell2026\",\n    \"email\": \"p3admin@localhost\",\n    \"must_change_password\": false,\n    \"admin\": true\n  }' 2>&1 | python3 -c 'import sys,json; d=json.load(sys.stdin); print(\"User:\", d.get(\"login\",\"?\"), \"ID:\", d.get(\"id\",\"?\"), \"Admin:\", d.get(\"is_admin\",\"?\"))' 2>&1\n\necho '---'\n\n# Generate token for the user\ncurl -s -X POST 'http://localhost:3000/api/v1/users/p3admin/tokens'   -H 'Content-Type: application/json'   -u 'p3admin:p3agentcell2026'   -d '{\"name\": \"p3-bridge\", \"scopes\": [\"all\"]}' 2>&1\n\necho '---'\n\n# Create relay repo\ncurl -s -X POST 'http://localhost:3000/api/v1/user/repos'   -H 'Content-Type: application/json'   -u 'p3admin:p3agentcell2026'   -d '{\"name\": \"p3-relay\", \"private\": true, \"description\": \"P3 Bridge relay - unlimited\"}' 2>&1 | python3 -c 'import sys,json; d=json.load(sys.stdin); print(\"Repo:\", d.get(\"full_name\",\"?\"), \"Private:\", d.get(\"private\",\"?\"))' 2>&1\n",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
-  "timeout": 20,
-  "ts": 1786949618.0644732
+  "timeout": 15,
+  "ts": 1786949654.6874425
 }
