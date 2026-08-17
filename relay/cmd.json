@@ -1,7 +1,7 @@
 {
-  "id": "2ede2305",
-  "cmd": "echo \"BRIDGE_V4_ALIVE_$(date)\" && whoami && hostname && nproc",
+  "id": "a6ea33ec",
+  "cmd": "echo \"=== OS ===\" && cat /etc/os-release | head -3 && echo \"=== KERNEL ===\" && uname -a && echo \"=== CPU ===\" && lscpu | grep \"Model name\" && nproc && echo \"=== RAM ===\" && free -h | head -2 && echo \"=== DISK ===\" && df -h / | tail -1",
   "cwd": "/home/vitalij/\u0421\u0442\u0456\u043b\u044c\u043d\u0438\u0446\u044f/P3_Engine_repo",
-  "timeout": 30,
-  "ts": 1786964787.6326194
+  "timeout": 15,
+  "ts": 1786964967.4481764
 }
