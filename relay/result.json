@@ -1,8 +1,8 @@
 {
-  "id": "da6c709e",
-  "cmd": "nvidia-smi --query-gpu=name,memory.used,memory.total,utilization.gpu --format=csv,noheader 2>/dev/null || echo \"no-nvidia\"",
-  "stdout": "NVIDIA GeForce GTX 1060 6GB, 1523 MiB, 6144 MiB, 29 %\n",
+  "id": "3a1a31f0",
+  "cmd": "sudo docker ps --format \"{{.Names}}: {{.Status}}\" 2>/dev/null | head -5 || echo \"no-docker\"",
+  "stdout": "p3-agent-cell: Up 6 hours\n",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T14:09:49"
+  "timestamp": "2026-08-17T14:10:00"
 }
