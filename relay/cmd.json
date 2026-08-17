@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786952461",
-  "cmd": "echo HELLO",
+  "id": "p3-1786952530",
+  "cmd": "echo ALIVE",
   "cwd": "/home/vitalij",
   "timeout": 5,
-  "ts": 1786952461.6860352
+  "ts": 1786952530.7605731
 }
