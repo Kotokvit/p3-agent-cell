@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786952662",
-  "cmd": "sudo ls /var/lib/gitea/data/",
+  "id": "p3-1786952700",
+  "cmd": "curl -sS http://localhost:3000/api/v1/repos/search 2>&1 | head -c 300",
   "cwd": "/home/vitalij",
   "timeout": 10,
-  "ts": 1786952662.0836217
+  "ts": 1786952700.466802
 }
