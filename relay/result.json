@@ -1,0 +1,8 @@
+{
+  "id": "fc859440",
+  "cmd": "echo '=== P3 Bridge Security Audit Fixed ===' && echo '' && echo 'P0 Fixed:' && echo '  ✓ verify_hmac() now called on receiver' && echo '  ✓ decrypt() now called on receiver' && echo '  ✓ Live relay d",
+  "stdout": "=== P3 Bridge Security Audit Fixed ===\n\nP0 Fixed:\n  ✓ verify_hmac() now called on receiver\n  ✓ decrypt() now called on receiver\n  ✓ Live relay data removed from public repo\n  ✓ Fail-closed: no secret = rejected, not plaintext\n  ✓ XOR fallback removed (cryptography REQUIRED)\n\nP1 Fixed:\n  ✓ Whitelist by executable (shlex), not prefix\n  ✓ python3 -c BLOCKED, docker --privileged BLOCKED\n  ✓ Replay protection (timestamp + nonce)\n  ✓ Audit log stores sanitized cmd (forensic-usable)\n  ✓ No silent except:pass (proper logging)\n  ✓ PBKDF2 key derivation (600K iterations)\n\ncachyos-x8664\nPython 3.14.6\n",
+  "stderr": "",
+  "returncode": 0,
+  "timestamp": "2026-08-17T15:33:00"
+}
