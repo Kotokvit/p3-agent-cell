@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786952385",
-  "cmd": "echo '=== API endpoints ===' && curl -s http://localhost:3000/api/v1/repos/search 2>/dev/null | head -c 200 && echo '' && echo '=== Swagger ===' && curl -s http://localhost:3000/swagger.v1.json 2>/dev/null | head -c 100 && echo '' && echo '=== Admin users ===' && curl -s http://localhost:3000/api/v1/admin/users 2>/dev/null | head -c 200 && echo '' && echo '=== Explore ===' && curl -s http://localhost:3000/api/v1/explore/repos 2>/dev/null | head -c 200",
+  "id": "p3-1786952427",
+  "cmd": "curl -s http://localhost:3000/api/v1/repos/search | head -c 300",
   "cwd": "/home/vitalij",
-  "timeout": 15,
-  "ts": 1786952385.7945492
+  "timeout": 10,
+  "ts": 1786952427.349081
 }
