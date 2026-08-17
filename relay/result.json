@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786952129",
-  "cmd": "echo ALIVE_CHECK_1786952129",
-  "stdout": "ALIVE_CHECK_1786952129\n",
+  "id": "p3-1786952143",
+  "cmd": "curl -s http://localhost:3000/ -o /dev/null -w '%{http_code}' && echo '' && curl -s http://localhost:3000/api/v1/nodeinfo 2>/dev/null | head -c 200",
+  "stdout": "200\nNot Found. <a href=\"/\">Go to default page</a>.",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T10:35:39"
+  "timestamp": "2026-08-17T10:35:50"
 }
