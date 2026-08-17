@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786953066",
-  "cmd": "echo W2RhdGFiYXNlXQpEQl9UWVBFID0gc3FsaXRlMwpQQVRIID0gL3Zhci9saWIvZ2l0ZWEvZGF0YS9naXRlYS5kYgoKW3JlcG9zaXRvcnldClJPT1QgPSAvdmFyL2xpYi9naXRlYS9yZXBvcwoKW3NlcnZlcl0KSFRUUF9QT1JUID0gMzAwMApET01BSU4gPSBsb2NhbGhvc3QKUk9PVF9VUkwgPSBodHRwOi8vbG9jYWxob3N0OjMwMDAvCgpbc2VjdXJpdHldCklOU1RBTExfTE9DSyA9IHRydWUKU0VDUkVUX0tFWSA9IHAzZ2l0ZWEyMDI0c2VjcmV0a2V5MzJieXRlc3gKSU5URVJOQUxfVE9LRU4gPSBwM2dpdGVhMjAyNGludGVybmFsdG9rZW42NGJ5dGVzeHh4eHh4Cgpbc2VydmljZV0KRElTQUJMRV9SRUdJU1RSQVRJT04gPSBmYWxzZQpSRVFVSVJFX1NJR05JTl9WSUVXID0gZmFsc2UKCltsb2ddCk1PREUgPSBjb25zb2xlCkxFVkVMID0gSW5mbwoKW29hdXRoMl0KRU5BQkxFRCA9IHRydWUK | base64 -d | sudo tee /var/lib/gitea/custom/conf/app.ini > /dev/null && sudo chown gitea:gitea /var/lib/gitea/custom/conf/app.ini && sudo chmod 640 /var/lib/gitea/custom/conf/app.ini && echo CONFIG_WRITTEN_OK",
+  "id": "p3-1786953087",
+  "cmd": "sudo systemctl restart gitea && sleep 2 && sudo systemctl status gitea | head -10",
   "cwd": "/home/vitalij",
   "timeout": 15,
-  "ts": 1786953066.0996492
+  "ts": 1786953087.77944
 }
