@@ -1,7 +1,7 @@
 {
-  "id": "107b7ae0",
-  "cmd": "cat /etc/gitea/app.ini 2>/dev/null | head -40",
+  "id": "90ebc36d",
+  "cmd": "cat /etc/gitea/app.ini | head -30; echo '==='; ls /var/lib/gitea/data/ 2>&1; echo '==='; curl -s http://localhost:3000/api/v1/nodeinfo 2>&1 | head -5",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
   "timeout": 10,
-  "ts": 1786949752.4657214
+  "ts": 1786949812.3128989
 }
