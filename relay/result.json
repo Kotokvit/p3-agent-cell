@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786960033",
-  "cmd": "echo IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwoiIiIKUMKzIEJyaWRnZSB2NCDigJQgVGVsZWdyYW0gR3JvdXAgUmVsYXkuINCR0LXQt9C70LjQvNC40YLQvdGL0LksINGA0LXQsNC70YLQsNC50LwuCgpBcmNoaXRlY3R1cmUgKEdST1VQLWJhc2VkKToKICAxLiBQcml",
-  "stdout": "304 /home/vitalij/Документи/p3_telegram_bridge.py\nDEPLOYED\n",
+  "id": "a753ec04",
+  "cmd": "echo \"BRIDGE_V4_ALIVE_$(date)\" && whoami && hostname && nproc && free -h | head -2",
+  "stdout": "BRIDGE_V4_ALIVE_понеділок, 17 серпня 2026 14:05:58 +0300\nvitalij\ncachyos-x8664\n8\n               загалом      використ.   вільна    спільна буфери/кеш   дост.\nПам.:           15Gi       7,8Gi       7,3Gi       150Mi       1,1Gi       7,8Gi\n",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T12:47:21"
+  "timestamp": "2026-08-17T14:05:58"
 }
