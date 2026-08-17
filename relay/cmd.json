@@ -1,7 +1,7 @@
 {
-  "id": "21aab6ab",
-  "cmd": "echo '=== Gitea Test ===' && curl -s http://localhost:3000/api/v1/version 2>/dev/null || echo 'Gitea not running' && echo '' && echo '=== Docker ===' && docker ps --format '{{.Names}}: {{.Status}}' 2>/dev/null | head -5",
+  "id": "47d025df",
+  "cmd": "echo '=== Gitea Setup ===' && GITEA_TOKEN='4d4cfffee333b6a83fd350dd8a5dd11cccdcddc7' && echo 'Version:' && curl -s http://localhost:3000/api/v1/version && echo '' && echo 'Repos:' && curl -s -H \"Authorization: token $GITEA_TOKEN\" 'http://localhost:3000/api/v1/repos/search?limit=10' | python3 -c 'import sys,json; d=json.load(sys.stdin); repos=d.get(\"data\",d) if isinstance(d,dict) else d; [print(f\"  {r[\"full_name\"]}\") for r in (repos if isinstance(repos,list) else [])]' 2>/dev/null && echo '' && echo 'User:' && curl -s -H \"Authorization: token $GITEA_TOKEN\" 'http://localhost:3000/api/v1/user' | python3 -c 'import sys,json; u=json.load(sys.stdin); print(f\"  @{u[\"login\"]} (id={u[\"id\"]})\")' 2>/dev/null",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
   "timeout": 15,
-  "ts": 1786967372.4827414
+  "ts": 1786967761.8938484
 }
