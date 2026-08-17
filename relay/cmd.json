@@ -1,7 +1,7 @@
 {
-  "id": "215c566f",
-  "cmd": "\n# Check if NOPASSWD already works (from earlier setup)\nsudo -n whoami 2>&1\necho '---'\n# Read the password file\ncat '/home/vitalij/Завантажене/Нова тека (3)/Текстовий файл.txt' 2>&1\necho '---'\n# Check existing sudoers\nsudo -n cat /etc/sudoers.d/p3-agent-cell 2>&1\n",
+  "id": "gitea-1786951569",
+  "cmd": "curl -s http://localhost:3000/ -o /dev/null -w \"%{http_code}\"",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
   "timeout": 10,
-  "ts": 1786951082.3378618
+  "ts": 1786951569.917799
 }
