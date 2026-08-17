@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786953200",
-  "cmd": "sudo grep -n \"^DB_TYPE\\|^INSTALL_LOCK\\|^PATH\" /etc/gitea/app.ini",
+  "id": "p3-1786953227",
+  "cmd": "sudo systemctl restart gitea && sleep 3 && curl -s http://localhost:3000/api/v1/nodeinfo 2>/dev/null | head -c 300",
   "cwd": "/home/vitalij",
-  "timeout": 10,
-  "ts": 1786953200.0278113
+  "timeout": 15,
+  "ts": 1786953227.9051766
 }
