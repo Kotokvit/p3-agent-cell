@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786959784",
-  "cmd": "python3 -c \"\nimport requests, json\nr = requests.post('https://api.telegram.org/bot8914912377:AAFKkL3YnFccDKS_lFnsuWVueFn3MTNya-g/getUpdates', json={'timeout':3, 'offset':0}, timeout=10)\nd = r.json()\nfor u in d.get('result', []):\n    msg = u.get('message', {})\n    print(f'Got: {msg.get(\"text\", \"?\")[:100]}')\nprint(f'Total updates: {len(d.get(\"result\", []))}')\n\"",
+  "id": "p3-1786959816",
+  "cmd": "echo CmltcG9ydCByZXF1ZXN0cywganNvbgpyID0gcmVxdWVzdHMucG9zdCgKICAgICdodHRwczovL2FwaS50ZWxlZ3JhbS5vcmcvYm90ODkxNDkxMjM3NzpBQUZLa0wzWW5GY2NES1NfbEZuc3VXVnVlRm4zTVROeWEtZy9nZXRVcGRhdGVzJywKICAgIGpzb249eyd0aW1lb3V0JzogMywgJ29mZnNldCc6IDB9LAogICAgdGltZW91dD0xMAopCmQgPSByLmpzb24oKQpmb3IgdSBpbiBkLmdldCgncmVzdWx0JywgW10pOgogICAgbXNnID0gdS5nZXQoJ21lc3NhZ2UnLCB7fSkKICAgIHRleHQgPSBtc2cuZ2V0KCd0ZXh0JywgJz8nKQogICAgcHJpbnQoZidHb3Q6IHt0ZXh0WzoxMDBdfScpCnByaW50KGYnVG90YWwgdXBkYXRlczoge2xlbihkLmdldCgicmVzdWx0IiwgW10pKX0nKQo= | base64 -d | python3",
   "cwd": "/home/vitalij",
   "timeout": 15,
-  "ts": 1786959784.6088698
+  "ts": 1786959816.0264657
 }
