@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786952587",
-  "cmd": "sudo cat /etc/gitea/app.ini | grep -v '^;' | grep -v '^$' | head -60",
-  "stdout": "[server]\n[database]\nDB_TYPE = mysql\nHOST = 127.0.0.1:3306 ; can use socket e.g. /var/run/mysqld/mysqld.sock\nNAME = gitea\nUSER = root\n[security]\nINSTALL_LOCK = false\nSECRET_KEY =\nINTERNAL_TOKEN =\n[camo]\n[oauth2]\nENABLED = true\n[log]\nMODE = console\nLEVEL = Info\n[git]\n[service]\n",
+  "id": "p3-1786952609",
+  "cmd": "echo '=== DB files ===' && ls -la /var/lib/gitea/data/ 2>/dev/null && echo '=== Install lock ===' && sudo cat /etc/gitea/app.ini | grep INSTALL_LOCK && echo '=== Full active config ===' && sudo cat /e",
+  "stdout": "=== DB files ===\n",
   "stderr": "",
-  "returncode": 0,
-  "timestamp": "2026-08-17T10:43:11"
+  "returncode": 2,
+  "timestamp": "2026-08-17T10:43:32"
 }
