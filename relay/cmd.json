@@ -1,7 +1,7 @@
 {
-  "id": "290db4c0",
-  "cmd": "echo \"=== SYSTEM ===\" && uname -a && echo \"=== CPU ===\" && nproc && echo \"=== RAM ===\" && free -h | head -2 && echo \"=== GPU ===\" && nvidia-smi --query-gpu=name,memory.used,memory.total --format=csv,noheader 2>/dev/null || echo \"no-gpu\" && echo \"=== DISK ===\" && df -h / | tail -1 && echo \"=== DOCKER ===\" && sudo docker ps --format \"{{.Names}}: {{.Status}}\" 2>/dev/null || echo \"no-docker\" && echo \"=== GITEA ===\" && curl -s http://localhost:3000/api/v1/version 2>/dev/null || echo \"no-gitea\"",
+  "id": "90594ce7",
+  "cmd": "echo '=== P3 Bridge v5 Test ===' && python3 --version && pip --version 2>/dev/null || echo 'pip not found' && which docker && docker --version",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
   "timeout": 15,
-  "ts": 1786965368.4481058
+  "ts": 1786966286.7601922
 }
