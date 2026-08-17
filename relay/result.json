@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786954121",
-  "cmd": "echo BORE_CHECK && which bore && bore --version 2>&1 || echo NO_BORE",
-  "stdout": "BORE_CHECK\n/usr/bin/bore\nbore-cli 0.6.0\n",
+  "id": "p3-1786954804",
+  "cmd": "echo IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwoiIiIKUMKzIEJyaWRnZSBDbGllbnQgdjQg4oCUIFByb2R1Y3Rpb24tcmVhZHkgcG9sbGluZyBjbGllbnQuCgpSdW5zIG9uIHRoZSBQQy4gUG9sbHMgR2l0SHViIHJlcG8gZm9yIGNvbW1hbmRzLCBleGVjdXRlcyB0aGV",
+  "stdout": "328 /home/vitalij/Документи/p3_bridge_client_v4.py\nCLIENT_V4_DEPLOYED\n",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T11:08:53"
+  "timestamp": "2026-08-17T11:20:13"
 }
