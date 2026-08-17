@@ -1,7 +1,7 @@
 {
-  "id": "1c894f57",
-  "cmd": "GITEA_TOKEN='4d4cfffee333b6a83fd350dd8a5dd11cccdcddc7' && echo '=== Gitea Relay Files ===' && curl -s -H \"Authorization: token $GITEA_TOKEN\" 'http://localhost:3000/api/v1/repos/p3admin/p3-relay/contents/relay' | python3 -c 'import sys,json; items=json.load(sys.stdin); [print(f\"  {f[\"name\"]} ({f[\"size\"]}b)\") for f in items] if isinstance(items,list) else print(\"  relay dir not found or empty\")' 2>/dev/null || echo 'relay dir needs creation'",
+  "id": "8396f459",
+  "cmd": "echo '✅ P3 Bridge v5 — DUAL BACKEND' && echo 'GitHub: 5000/hr (external)' && echo 'Gitea:  ∞ UNLIMITED (local)' && echo '' && echo 'PC Status:' && uname -n && python3 --version && docker ps --format '{{.Names}}: {{.Status}}' 2>/dev/null | head -3 && echo '' && echo 'Gitea:' && curl -s http://localhost:3000/api/v1/version 2>/dev/null || echo 'N/A'",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
   "timeout": 15,
-  "ts": 1786967782.5896409
+  "ts": 1786968017.6446857
 }
