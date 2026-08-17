@@ -27,7 +27,10 @@ from pathlib import Path
 # Import security
 sys.path.insert(0, str(Path(__file__).parent))
 try:
-    from p3_security import full_validate_and_execute, get_validator, get_limiter, get_audit, get_crypto
+    from p3_security import (
+        full_validate_and_execute, verify_command_auth,
+        get_validator, get_limiter, get_audit, get_crypto,
+    )
     HAS_SECURITY = True
 except ImportError:
     HAS_SECURITY = False
@@ -142,17 +145,51 @@ class RepoRelay:
         return None
 
     def read_command(self):
+        """Read command with PROPER decrypt + HMAC verification.
+        
+        Pipeline (security audit fix):
+          1. Read raw content from repo
+          2. Decrypt if encryption is enabled (fail-closed)
+          3. Parse JSON
+          4. Verify HMAC signature (REJECT if invalid)
+          5. Replay protection (timestamp + nonce)
+          6. Only then return command data
+        """
         path = f"{self.relay_path}/cmd.json"
         content, sha = self.get_file(path)
-        if content:
+        if not content:
+            return None
+
+        # Step 1: Decrypt if P3_SECRET is set
+        crypto = get_crypto()
+        if crypto.enabled:
             try:
-                cmd_data = json.loads(content)
-                cmd_id = cmd_data.get("id", "")
-                if cmd_id != self.last_cmd_id:
-                    return cmd_data
-            except json.JSONDecodeError:
-                pass
-        return None
+                content = crypto.decrypt(content)
+            except Exception as e:
+                print(f"  ⚠️  DECRYPT FAILED: {e} — command rejected (fail-closed)")
+                return None
+
+        # Step 2: Parse JSON
+        try:
+            cmd_data = json.loads(content)
+        except json.JSONDecodeError as e:
+            print(f"  ⚠️  JSON parse error: {e} — possible encrypted payload without secret")
+            return None
+
+        # Step 3: Skip already-processed commands
+        cmd_id = cmd_data.get("id", "")
+        if cmd_id == self.last_cmd_id:
+            return None
+
+        # Step 4: Verify HMAC + replay protection (via security module)
+        if HAS_SECURITY:
+            verified_data, auth_error = verify_command_auth(cmd_data)
+            if auth_error:
+                print(f"  🔒  {auth_error}")
+                return None
+            cmd_data = verified_data
+
+        return cmd_data
 
     def write_result(self, cmd_id, cmd, stdout, stderr, returncode, elapsed):
         result = {
