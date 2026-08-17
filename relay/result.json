@@ -1,8 +1,8 @@
 {
-  "id": "gitea-install",
-  "cmd": "curl -s -X POST http://localhost:3000/install -H 'Content-Type: application/x-www-form-urlencoded' -d 'db_type=SQLite3&db_path=/var/lib/gitea/data/gitea.db&app_name=P3+Gitea&repo_root_path=/var/lib/gi",
-  "stdout": "\nHTTP_CODE:404Not Found. <a href=\"/\">Go to default page</a>.",
+  "id": "alive-check",
+  "cmd": "echo ALIVE_1786951916",
+  "stdout": "ALIVE_1786951916\n",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T10:31:50"
+  "timestamp": "2026-08-17T10:31:58"
 }
