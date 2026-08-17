@@ -1,8 +1,8 @@
 {
-  "id": "0443a26a",
-  "cmd": "curl -s http://localhost:3000/api/v1/version && echo '' && curl -s -H 'Authorization: token 4d4cfffee333b6a83fd350dd8a5dd11cccdcddc7' 'http://localhost:3000/api/v1/repos/search?limit=5' | python3 -c '",
-  "stdout": "",
-  "stderr": "HTTP Error 409: Conflict",
-  "returncode": -1,
-  "timestamp": "2026-08-17T14:49:12"
+  "id": "21aab6ab",
+  "cmd": "echo '=== Gitea Test ===' && curl -s http://localhost:3000/api/v1/version 2>/dev/null || echo 'Gitea not running' && echo '' && echo '=== Docker ===' && docker ps --format '{{.Names}}: {{.Status}}' 2>",
+  "stdout": "=== Gitea Test ===\n{\"version\":\"1.27.2\"}\n=== Docker ===\n",
+  "stderr": "",
+  "returncode": 0,
+  "timestamp": "2026-08-17T14:49:34"
 }
