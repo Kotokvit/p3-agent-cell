@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786952569",
-  "cmd": "sudo cat /etc/gitea/app.ini | head -50",
+  "id": "p3-1786952587",
+  "cmd": "sudo cat /etc/gitea/app.ini | grep -v '^;' | grep -v '^$' | head -60",
   "cwd": "/home/vitalij",
   "timeout": 15,
-  "ts": 1786952569.2387044
+  "ts": 1786952587.2133694
 }
