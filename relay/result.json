@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786960013",
+  "id": "p3-1786960033",
   "cmd": "echo IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwoiIiIKUMKzIEJyaWRnZSB2NCDigJQgVGVsZWdyYW0gR3JvdXAgUmVsYXkuINCR0LXQt9C70LjQvNC40YLQvdGL0LksINGA0LXQsNC70YLQsNC50LwuCgpBcmNoaXRlY3R1cmUgKEdST1VQLWJhc2VkKToKICAxLiBQcml",
-  "stdout": "DEPLOYED__lines\n",
+  "stdout": "304 /home/vitalij/Документи/p3_telegram_bridge.py\nDEPLOYED\n",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T12:46:58"
+  "timestamp": "2026-08-17T12:47:19"
 }
