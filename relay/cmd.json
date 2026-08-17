@@ -1,7 +1,7 @@
 {
-  "id": "c21cf34c",
-  "cmd": "echo \"=== SYSTEM ===\" && uname -a && echo \"=== CPU ===\" && nproc && echo \"=== RAM ===\" && free -h | head -2 && echo \"=== GPU ===\" && nvidia-smi --query-gpu=name,memory.used,memory.total --format=csv,noheader 2>/dev/null || echo \"no-gpu\" && echo \"=== DISK ===\" && df -h / | tail -1 && echo \"=== DOCKER ===\" && sudo docker ps --format \"{{.Names}}: {{.Status}}\" 2>/dev/null || echo \"no-docker\" && echo \"=== GITEA ===\" && curl -s http://localhost:3000/api/v1/version 2>/dev/null || echo \"no-gitea\"",
+  "id": "832b5c3e",
+  "cmd": "echo \"=== Gitea Version ===\" && curl -s http://localhost:3000/api/v1/version && echo \"\" && echo \"=== Gitea Settings ===\" && curl -s http://localhost:3000/api/v1/settings/api && echo \"\" && echo \"=== Gitea Repos ===\" && curl -s -H \"Authorization: token 4d4cfffee333b6a83fd350dd8a5dd11cccdcddc7\" http://localhost:3000/api/v1/repos/search && echo \"\"",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
-  "timeout": 15,
-  "ts": 1786954860.3776834
+  "timeout": 10,
+  "ts": 1786954885.9750369
 }
