@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786952922",
-  "cmd": "sudo mkdir -p /var/lib/gitea/custom/conf",
-  "stdout": "",
+  "id": "p3-1786953066",
+  "cmd": "echo W2RhdGFiYXNlXQpEQl9UWVBFID0gc3FsaXRlMwpQQVRIID0gL3Zhci9saWIvZ2l0ZWEvZGF0YS9naXRlYS5kYgoKW3JlcG9zaXRvcnldClJPT1QgPSAvdmFyL2xpYi9naXRlYS9yZXBvcwoKW3NlcnZlcl0KSFRUUF9QT1JUID0gMzAwMApET01BSU4gPSBsb2N",
+  "stdout": "CONFIG_WRITTEN_OK\n",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T10:49:10"
+  "timestamp": "2026-08-17T10:51:13"
 }
