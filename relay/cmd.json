@@ -1,7 +1,7 @@
 {
-  "id": "77a3429a",
-  "cmd": "echo '=== SYSTEM ===' && uname -a && echo '=== GPU ===' && nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader && echo '=== RAM ===' && free -h | head -2 && echo '=== DISK ===' && df -h / | tail -1",
+  "id": "13fa12b9",
+  "cmd": "\n# Check if gitea is already installed\nwhich gitea 2>/dev/null && echo 'GITEA_EXISTS' || echo 'NEED_INSTALL'\n\n# Check available RAM and disk\necho '---'\nfree -m | head -2\necho '---'\n# Check if port 3000 is free\nss -tlnp | grep ':3000' 2>/dev/null || echo 'PORT_3000_FREE'\nss -tlnp | grep ':3001' 2>/dev/null || echo 'PORT_3001_FREE'\n",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
-  "timeout": 15,
-  "ts": 1786949182.6295357
+  "timeout": 10,
+  "ts": 1786949218.1506314
 }
