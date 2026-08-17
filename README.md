@@ -1,232 +1,172 @@
 # P³ Bridge — Remote Command Bridge
 
-> AI Sandbox ←→ Relay ←→ Your PC — **Dual backend: GitHub + Gitea (unlimited!)**
+> AI Sandbox ←→ Relay ←→ Your PC — **Hardened, fail-closed, dual backend**
 
 Execute commands on your PC from any AI agent. Zero open ports. Zero VPN.
+
+## Security Model
+
+**P³ Bridge is fail-closed by default:**
+- No `P3_SECRET` set → **unauthenticated mode** (no HMAC, no encryption)
+- `P3_SECRET` set → **authenticated mode** (HMAC + Fernet required, no XOR fallback)
+- `P3_REQUIRE_AUTH=1` (default) → HMAC **must** be present or command is **REJECTED**
+- Replay protection: timestamp skew > 120s → **REJECTED**, duplicate nonce → **REJECTED**
+
+**All AI commands execute through whitelist by executable (not prefix):**
+- `python3 script.py` → ✅ allowed
+- `python3 -c '...'` → ❌ blocked (arbitrary code execution)
+- `docker ps` → ✅ allowed
+- `docker run --privileged` → ❌ blocked (host escape)
+- `find /tmp -name '*.log'` → ✅ allowed
+- `find /tmp -exec rm {} \;` → ❌ blocked (arbitrary execution)
+
+**Audit log stores sanitized command** (forensic-usable, not just hash).
 
 ## How It Works
 
 ```
-┌─────────────┐     cmd.json      ┌──────────────┐    poll     ┌───────────┐
-│  AI Agent   │ ──────────────▶  │  Relay        │ ◀───────── │  Your PC  │
-│  (Sandbox)  │                   │  GitHub/Gitea │            │  (Client)  │
-│             │  ◀──────────────  │  relay/       │ ────────▶ │             │
-└─────────────┘    result.json    └──────────────┘   write     └───────────┘
+┌─────────────┐   signed+encrypted   ┌───────────┐   decrypt+verify   ┌───────────┐
+│  AI Agent   │ ──────────────────▶  │  Relay     │ ───────────────▶  │  Your PC  │
+│  (Sandbox)  │                      │  GitHub/   │   HMAC check     │  (Client)  │
+│             │  ◀──────────────────  │  Gitea     │ ────────▶        │             │
+└─────────────┘    result.json       └───────────┘   validate+exec    └───────────┘
 ```
 
-### Dual Backend Architecture
+### Command Pipeline (PC side, in order):
 
-| Backend | Rate Limit | Poll Speed | Use Case |
-|---------|-----------|------------|----------|
-| **GitHub** | 5,000 req/hr | 10s | External access from AI sandbox |
-| **Gitea** | **∞ UNLIMITED** | 3s | Local ops, high-throughput |
+```
+read cmd.json
+    ↓
+decrypt (if P3_SECRET set, fail-closed)
+    ↓
+parse JSON
+    ↓
+verify HMAC signature (REJECT if invalid)
+    ↓
+replay protection (timestamp + nonce check)
+    ↓
+whitelist validation (by executable, not prefix)
+    ↓
+rate limit check
+    ↓
+execute (subprocess, stdin=/dev/null)
+    ↓
+sanitize output (strip tokens/secrets)
+    ↓
+audit log (sanitized cmd, not hash)
+    ↓
+write result.json
+```
 
-The PC client polls **both** relays. Gitea is checked first (faster + unlimited).
-AI sandbox uses GitHub (reachable from anywhere). When both are available,
-Gitea handles the load and GitHub stays as backup.
+## Quick Start
 
-## Quick Start (5 minutes)
+### Step 1: Generate shared secret
 
-### Prerequisites
-
-- Python 3.8+ on both machines
-- GitHub account + Classic PAT with `repo` + `gist` scopes
-- Gitea on PC (optional, but recommended for unlimited access)
-
-### Step 1: Create GitHub PAT
-
-Go to [GitHub Settings → Tokens → Tokens (classic)](https://github.com/settings/tokens)
-
-Create a token with scopes: ✅ `repo` + ✅ `gist`
+```bash
+python3 -c "import secrets; print(secrets.token_urlsafe(32))"
+# Save this — both sides need it
+```
 
 ### Step 2: PC Side — Install & Run
 
 ```bash
-# Clone the repo
 git clone https://github.com/Kotokvit/p3-agent-cell.git
 cd p3-agent-cell
 
-# Option A: Automated setup
-chmod +x setup/install_pc.sh
-./setup/install_pc.sh --token ghp_YOUR_TOKEN_HERE
+# Install encryption dependency (REQUIRED when P3_SECRET is set)
+pip install cryptography
 
-# Option B: Manual — GitHub only
-python3 bridge/p3_client.py --token ghp_YOUR_TOKEN_HERE
-
-# Option C: Manual — GitHub + Gitea (UNLIMITED!)
+# Run with authentication
+export P3_SECRET=your_shared_secret_here
 python3 bridge/p3_client.py \
   --token ghp_YOUR_GITHUB_PAT \
-  --gitea-token YOUR_GITEA_TOKEN \
-  --gitea-url http://localhost:3000
-
-# Option D: Systemd service (auto-start on boot)
-sudo systemctl enable --now p3-bridge-client
+  --gitea-token YOUR_GITEA_TOKEN
 ```
 
 ### Step 3: AI Side — Send Commands
 
 ```bash
 export P3_GITHUB_TOKEN=ghp_YOUR_TOKEN_HERE
+export P3_SECRET=your_shared_secret_here
 
-# One-shot command
 python3 bridge/p3_bridge.py cmd "uname -a"
-
-# System status
 python3 bridge/p3_bridge.py status
-
-# Interactive REPL
-python3 bridge/p3_bridge.py repl
 ```
 
-### Step 4: Verify
+## Dual Backend
 
-```bash
-python3 bridge/p3_bridge.py cmd "echo 'P3 Bridge ONLINE!' && hostname"
-# → P3 Bridge ONLINE!
-# → your-pc-hostname
-```
+| Backend | Rate Limit | Poll Speed | Use Case |
+|---------|-----------|------------|----------|
+| **Gitea** | **∞ UNLIMITED** | 3s | Local ops, high-throughput |
+| **GitHub** | 5,000 req/hr | 10s | External access from AI sandbox |
 
-## Gitea Setup (Unlimited Access)
+## Security Features
 
-Gitea is a self-hosted GitHub alternative with **ZERO API rate limits**.
-
-```bash
-# Install Gitea via Docker
-docker run -d --name=gitea -p 3000:3000 -p 222:22 \
-  -v /var/lib/gitea:/data \
-  gitea/gitea:latest
-
-# Open http://localhost:3000, create admin account
-# Create repo: p3admin/p3-relay
-# Generate API token in Settings → Applications
-
-# Start client with Gitea
-python3 bridge/p3_client.py \
-  --token ghp_GITHUB_PAT \
-  --gitea-token GITEA_TOKEN
-```
-
-Now your bridge has **unlimited** command throughput through Gitea,
-with GitHub as fallback for external access.
-
-## Token Rotation (Multiply Rate Limit)
-
-Add multiple GitHub PATs to multiply your effective rate limit:
-1 token = 5,000/hr → **N tokens = N × 5,000/hr**
-
-```bash
-# Register tokens
-python3 bridge/p3_token_rotation.py add ghp_TOKEN1 --name "account-1"
-python3 bridge/p3_token_rotation.py add ghp_TOKEN2 --name "account-2"
-python3 bridge/p3_token_rotation.py add ghp_TOKEN3 --name "account-3"
-
-# Check rate limits
-python3 bridge/p3_token_rotation.py status
-
-# Get next available token (smart: picks token with most remaining)
-python3 bridge/p3_token_rotation.py next
-```
-
-## Security
-
-P³ Bridge is designed for **production use** with multiple security layers:
-
-### Command Validation
-
-| Mode | Description | Use Case |
-|------|-------------|----------|
-| `blacklist` | Block dangerous commands, allow everything else | **Default** |
-| `whitelist` | Only allow pre-approved commands | **Production** |
-
-**Always blocked**: `rm -rf /`, `dd of=/dev/`, `mkfs`, `reboot`, reverse shells,
-`curl|sh`, crypto miners, fork bombs, kernel module injection.
-
-### Rate Limiting: 30 commands/minute (sliding window)
-
-### HMAC-SHA256 Signing (prevents tampering in transit)
-
-### Fernet Channel Encryption (GitHub sees only encrypted blobs)
-
-### Audit Logging (SHA-256 hashed commands, never plaintext)
-
-### Output Sanitization (tokens → `***TOKEN***`)
-
-### Systemd Hardening (NoNewPrivileges, ProtectSystem, PrivateTmp)
+| Feature | Implementation | Default |
+|---------|---------------|---------|
+| HMAC-SHA256 | **Verified on receiver** | Required when P3_SECRET set |
+| Fernet encryption | **No insecure fallback** | Required when P3_SECRET set |
+| Key derivation | PBKDF2 (600K iterations) | Fail-closed if cryptography missing |
+| Replay protection | Timestamp + nonce tracking | 120s skew window |
+| Command validation | Whitelist by executable (shlex) | whitelist mode |
+| Dangerous flags | `python -c`, `docker --privileged`, `find -exec` | Always blocked |
+| Rate limiting | 30 commands/minute sliding window | Configurable |
+| Audit log | Sanitized command + hash | Forensic-usable |
+| Output sanitization | Tokens, AWS keys, generic secrets | Always active |
 
 ## Configuration
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `P3_GITHUB_TOKEN` | ✅ Yes | — | GitHub Classic PAT (repo+gist) |
-| `P3_GITEA_URL` | No | `http://localhost:3000` | Gitea URL |
-| `P3_GITEA_TOKEN` | No | — | Gitea API token |
-| `P3_GITEA_REPO` | No | `p3admin/p3-relay` | Gitea repo |
-| `P3_SECRET` | No | — | Shared secret for HMAC + encryption |
-| `P3_SECURITY_MODE` | No | `blacklist` | `blacklist` or `whitelist` |
+| `P3_GITHUB_TOKEN` | ✅ | — | GitHub Classic PAT (repo+gist) |
+| `P3_SECRET` | Recommended | — | Shared secret for HMAC + encryption |
+| `P3_REQUIRE_AUTH` | No | `1` | Fail-closed: require HMAC (1=on) |
+| `P3_SECURITY_MODE` | No | `whitelist` | `whitelist` (recommended) or `blacklist` |
+| `P3_GITEA_URL`<br>`P3_GITEA_TOKEN` | No | — | Gitea relay (unlimited) |
 | `P3_RATE_LIMIT` | No | `30` | Max commands per minute |
-| `P3_REPO_OWNER` | No | `Kotokvit` | GitHub repo owner |
-| `P3_REPO_NAME` | No | `p3-agent-cell` | GitHub repo name |
-| `P3_ENGINE_DIR` | No | `~/` | Default CWD for commands |
-| `P3_AUDIT_DIR` | No | `/var/log/p3-bridge` | Audit log directory |
+| `P3_TIMESTAMP_SKEW` | No | `120` | Max clock skew in seconds |
+| `P3_MAX_CMD_LEN` | No | `4096` | Max command length |
 
 ## Architecture
 
 ```
 p3-agent-cell/
-├── bridge/                        # Bridge code
-│   ├── p3_bridge.py              # AI-side bridge (GitHub relay)
-│   ├── p3_client.py              # PC client v5 (dual backend + security)
-│   ├── p3_security.py            # Security module (validation, audit, encrypt)
-│   ├── p3_gitea_relay.py         # Gitea relay (UNLIMITED) + GitHub fallback
-│   └── p3_token_rotation.py      # Token rotation (N × 5000/hr)
-├── setup/                         # Setup & deployment
-│   ├── install_pc.sh             # Automated PC setup
-│   ├── config.env.example        # Configuration template
-│   └── systemd/                  # Systemd service
-├── relay/                         # Communication channel
-│   ├── cmd.json                  # AI → PC
-│   └── result.json               # PC → AI
+├── bridge/
+│   ├── p3_client.py          # PC client (dual backend + security pipeline)
+│   ├── p3_bridge.py          # AI-side bridge (sign + encrypt + send)
+│   ├── p3_security.py        # Security module (hardened v2)
+│   ├── p3_gitea_relay.py     # Gitea relay (UNLIMITED)
+│   └── p3_token_rotation.py  # Token rotation
+├── setup/
+│   ├── install_pc.sh
+│   ├── config.env.example
+│   └── systemd/
+├── relay/                     # .gitignore — NEVER commit live data
+├── .gitignore                 # Protects relay/*.json and secrets
 ├── README.md
-└── LICENSE                        # MIT License
+└── LICENSE
 ```
 
-## Rate Limits Comparison
+## Known Limitations
 
-| Backend | Limit | Commands/hr | Cost |
-|---------|-------|-------------|------|
-| GitHub Free | 5,000 req/hr | ~800/hr | Free |
-| GitHub Pro | 10,000 req/hr | ~1,600/hr | $4/mo |
-| GitHub App | 15,000 req/hr | ~2,500/hr | Free setup |
-| **Gitea** | **∞** | **∞** | **Free** |
-| N GitHub PATs | N × 5,000/hr | N × 800/hr | Free |
+- **GitHub polling is not real-time** (~10s latency). For lower latency, use Gitea locally.
+- **Single cmd.json without queue** — if PC is offline, only last command is preserved.
+- **Blacklist mode is fundamentally insufficient** for shell — use `whitelist`.
+- **Classic PAT has broad access** — consider GitHub App with minimal permissions.
+- **Audit log is local** — if PC is compromised, logs can be tampered with.
+- **Rate limiter resets on restart** — not distributed/persistent.
 
-## For AI Agent Integrators
+## Threat Model
 
-```python
-import subprocess, os
-
-os.environ["P3_GITHUB_TOKEN"] = "ghp_..."
-
-# One-shot
-result = subprocess.run(
-    ["python3", "bridge/p3_bridge.py", "cmd", "ls -la /home"],
-    capture_output=True, text=True
-)
-
-# Or import directly
-from p3_bridge import do_cmd, do_status
-result = do_cmd("nvidia-smi", timeout=15, wait=30)
-```
-
-## Troubleshooting
-
-**Token Permission Errors (403)**: Use Classic PAT (not Fine-grained) with `repo` + `gist`.
-
-**Client Not Picking Up**: Check `systemctl status p3-bridge-client`, `journalctl -u p3-bridge-client -f`.
-
-**SHA Conflicts (409)**: Handled automatically. If persistent, delete relay/*.json and restart.
-
-**Rate Limiting Hit**: Add Gitea (unlimited) or rotate tokens, or reduce `--poll 30`.
+| Threat | Mitigation |
+|--------|-----------|
+| Tampered cmd.json in transit | HMAC-SHA256 signature verified on receiver |
+| Passive observer on GitHub | Fernet encryption (PBKDF2-derived key) |
+| Replay attack | Timestamp + nonce tracking |
+| Arbitrary code execution | Whitelist by executable, dangerous flags blocked |
+| Host escape via docker | `--privileged` and `/` mount blocked |
+| Token leakage in output | Regex sanitization for tokens/secrets |
+| Credential theft via PAT | Minimal scope, .gitignore prevents exposure |
 
 ## License
 
