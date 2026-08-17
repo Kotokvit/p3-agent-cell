@@ -1,8 +1,8 @@
 {
   "id": "90594ce7",
   "cmd": "echo '=== P3 Bridge v5 Test ===' && python3 --version && pip --version 2>/dev/null || echo 'pip not found' && which docker && docker --version",
-  "stdout": "=== P3 Bridge v5 Test ===\nPython 3.14.6\npip 26.2.1 from /usr/lib/python3.14/site-packages/pip (python 3.14)\n/usr/bin/docker\nDocker version 29.7.2, build a7dcaa6fdb\n",
-  "stderr": "",
-  "returncode": 0,
-  "timestamp": "2026-08-17T14:31:34"
+  "stdout": "",
+  "stderr": "HTTP Error 409: Conflict",
+  "returncode": -1,
+  "timestamp": "2026-08-17T14:31:35"
 }
