@@ -1,8 +1,0 @@
-{
-  "id": "8396f459",
-  "cmd": "echo '✅ P3 Bridge v5 — DUAL BACKEND' && echo 'GitHub: 5000/hr (external)' && echo 'Gitea:  ∞ UNLIMITED (local)' && echo '' && echo 'PC Status:' && uname -n && python3 --version && docker ps --format '",
-  "stdout": "✅ P3 Bridge v5 — DUAL BACKEND\nGitHub: 5000/hr (external)\nGitea:  ∞ UNLIMITED (local)\n\nPC Status:\ncachyos-x8664\nPython 3.14.6\n\nGitea:\n{\"version\":\"1.27.2\"}",
-  "stderr": "",
-  "returncode": 0,
-  "timestamp": "2026-08-17T15:00:29"
-}
