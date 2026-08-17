@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786952250",
-  "cmd": "sudo docker run --rm -v /etc/gitea:/gitea alpine cat /gitea/app.ini 2>/dev/null | head -80 || echo 'docker-failed'",
+  "id": "p3-1786952305",
+  "cmd": "sudo -n gitea admin user list -c /etc/gitea/app.ini 2>&1 | head -20; echo EXIT_CODE:$?",
   "cwd": "/home/vitalij",
-  "timeout": 30,
-  "ts": 1786952250.7727356
+  "timeout": 20,
+  "ts": 1786952305.6360128
 }
