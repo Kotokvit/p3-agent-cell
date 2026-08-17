@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786953066",
-  "cmd": "echo W2RhdGFiYXNlXQpEQl9UWVBFID0gc3FsaXRlMwpQQVRIID0gL3Zhci9saWIvZ2l0ZWEvZGF0YS9naXRlYS5kYgoKW3JlcG9zaXRvcnldClJPT1QgPSAvdmFyL2xpYi9naXRlYS9yZXBvcwoKW3NlcnZlcl0KSFRUUF9QT1JUID0gMzAwMApET01BSU4gPSBsb2N",
-  "stdout": "CONFIG_WRITTEN_OK\n",
+  "id": "p3-1786953087",
+  "cmd": "sudo systemctl restart gitea && sleep 2 && sudo systemctl status gitea | head -10",
+  "stdout": "● gitea.service - Gitea (Git with a cup of tea)\n     Loaded: loaded (/usr/lib/systemd/system/gitea.service; enabled; preset: disabled)\n     Active: active (running) since Mon 2026-08-17 10:51:37 EEST; 781ms ago\n Invocation: 39202943995d417ca05b8103f081cbf6\n   Main PID: 44663 (gitea)\n      Tasks: 13 (limit: 19007)\n     Memory: 97.2M (peak: 97.8M)\n        CPU: 491ms\n     CGroup: /system.slice/gitea.service\n             └─44663 /usr/bin/gitea web -c /etc/gitea/app.ini\n",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T10:51:15"
+  "timestamp": "2026-08-17T10:51:37"
 }
