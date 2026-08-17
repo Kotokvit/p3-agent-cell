@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786952587",
-  "cmd": "sudo cat /etc/gitea/app.ini | grep -v '^;' | grep -v '^$' | head -60",
+  "id": "p3-1786952609",
+  "cmd": "echo '=== DB files ===' && ls -la /var/lib/gitea/data/ 2>/dev/null && echo '=== Install lock ===' && sudo cat /etc/gitea/app.ini | grep INSTALL_LOCK && echo '=== Full active config ===' && sudo cat /etc/gitea/app.ini | grep -v '^;' | grep -v '^\\s*;' | grep -v '^$'",
   "cwd": "/home/vitalij",
   "timeout": 15,
-  "ts": 1786952587.2133694
+  "ts": 1786952609.937337
 }
