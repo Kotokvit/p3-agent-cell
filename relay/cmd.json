@@ -1,7 +1,7 @@
 {
-  "id": "gitea-1786951667",
-  "cmd": "curl -s -u \"p3admin:P3Gitea2024!Secure\" http://localhost:3000/api/v1/users/p3admin/tokens",
+  "id": "gitea-1786951691",
+  "cmd": "curl -s -X POST -u \"p3admin:P3Gitea2024!Secure\" http://localhost:3000/api/v1/users/p3admin/tokens -H \"Content-Type: application/json\" -d '{\"name\": \"p3-relay\", \"scopes\": [\"write:repository\", \"write:issue\"]}'",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
   "timeout": 10,
-  "ts": 1786951667.7629364
+  "ts": 1786951691.0232537
 }
