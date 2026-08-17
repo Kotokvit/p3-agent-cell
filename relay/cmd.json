@@ -1,7 +1,7 @@
 {
-  "id": "6d5452ee",
-  "cmd": "\n# Check gitea config and database\ncat /etc/gitea/app.ini 2>/dev/null | head -30\necho '=== DB ==='\nls -la /var/lib/gitea/data/ 2>/dev/null\necho '=== LOGS ==='\nsudo journalctl -u gitea --no-pager -n 20 2>&1 | grep -E 'ERROR|FATAL|admin|install|listen' | tail -10\n",
+  "id": "107b7ae0",
+  "cmd": "cat /etc/gitea/app.ini 2>/dev/null | head -40",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
   "timeout": 10,
-  "ts": 1786949725.4402368
+  "ts": 1786949752.4657214
 }
