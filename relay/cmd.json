@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786953626",
-  "cmd": "curl -s -X POST -u p3admin:P3Gitea2024xSecure http://localhost:3000/api/v1/users/p3admin/tokens -H 'Content-Type: application/json' -d '{\"name\":\"p3-relay\",\"scopes\":[\"write:repository\",\"write:issue\",\"write:user\"]}' 2>/dev/null",
+  "id": "p3-1786953646",
+  "cmd": "curl -s -X POST 'http://localhost:3000/api/v1/user/repos' -H 'Authorization: token 4d4cfffee333b6a83fd350dd8a5dd11cccdcddc7' -H 'Content-Type: application/json' -d '{\"name\":\"p3-relay\",\"private\":true,\"auto_init\":true}' 2>/dev/null",
   "cwd": "/home/vitalij",
-  "timeout": 10,
-  "ts": 1786953626.8650777
+  "timeout": 15,
+  "ts": 1786953646.705079
 }
