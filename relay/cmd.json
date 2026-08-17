@@ -1,7 +1,7 @@
 {
-  "id": "da6c709e",
-  "cmd": "nvidia-smi --query-gpu=name,memory.used,memory.total,utilization.gpu --format=csv,noheader 2>/dev/null || echo \"no-nvidia\"",
+  "id": "3a1a31f0",
+  "cmd": "sudo docker ps --format \"{{.Names}}: {{.Status}}\" 2>/dev/null | head -5 || echo \"no-docker\"",
   "cwd": "/home/vitalij/\u0421\u0442\u0456\u043b\u044c\u043d\u0438\u0446\u044f/P3_Engine_repo",
   "timeout": 10,
-  "ts": 1786964979.8224154
+  "ts": 1786964989.2742257
 }
