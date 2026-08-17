@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786953579",
-  "cmd": "sudo -u gitea gitea admin user create --admin --username p3admin --password P3Gitea2024xSecure --email p3admin@localhost -c /etc/gitea/app.ini 2>&1",
-  "stdout": "Command error: CreateUser: user already exists [name: p3admin]\n",
+  "id": "p3-1786953596",
+  "cmd": "curl -s -u p3admin:P3Gitea2024xSecure http://localhost:3000/api/v1/user 2>/dev/null | head -c 500",
+  "stdout": "{\"id\":1,\"login\":\"p3admin\",\"login_name\":\"\",\"source_id\":0,\"full_name\":\"\",\"email\":\"p3admin@localhost\",\"avatar_url\":\"http://localhost:3000/avatars/078df16c124ea5bb4cb551801cb34f36\",\"html_url\":\"http://localhost:3000/p3admin\",\"language\":\"\",\"is_admin\":true,\"last_login\":\"1970-01-01T03:00:00+03:00\",\"created\":\"2026-08-17T10:58:39+03:00\",\"restricted\":false,\"active\":true,\"prohibit_login\":false,\"location\":\"\",\"website\":\"\",\"description\":\"\",\"visibility\":\"public\",\"followers_count\":0,\"following_count\":0,\"starred_",
   "stderr": "",
-  "returncode": 1,
-  "timestamp": "2026-08-17T10:59:45"
+  "returncode": 0,
+  "timestamp": "2026-08-17T11:00:07"
 }
