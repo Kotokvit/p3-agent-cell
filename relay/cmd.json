@@ -1,0 +1,7 @@
+{
+  "id": "c3fdaf52",
+  "cmd": "echo 'BRIDGE_V3_ALIVE' && whoami && date",
+  "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
+  "timeout": 10,
+  "ts": 1786948294.0330179
+}
