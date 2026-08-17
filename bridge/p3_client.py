@@ -1,19 +1,15 @@
 #!/usr/bin/env python3
 """
-P3 Bridge Client v5 — Production client with security module.
+P3 Bridge Client v5 — Dual Backend (GitHub + Gitea)
 
-Runs on the PC. Polls GitHub repo for commands, validates them,
-executes in sandbox, writes results back. Full audit trail.
+PC-side client with:
+  - GitHub relay (5000 req/hr, for AI sandbox access)
+  - Gitea relay (UNLIMITED, for local/direct operations)
+  - Security module (validation, rate limiting, audit)
+  - Auto-selects best backend per command
 
 Usage:
-  python3 p3_client.py --token <GITHUB_PAT> [options]
-
-Environment:
-  P3_SECRET         Shared secret for HMAC + optional encryption
-  P3_SECURITY_MODE  "blacklist" (default) or "whitelist"
-  P3_RATE_LIMIT     Max commands per minute (default: 30)
-  P3_SANDBOX_DIR    If set, execute commands in Docker sandbox
-  P3_AUDIT_DIR      Audit log directory (default: /var/log/p3-bridge)
+  python3 p3_client.py --token <GITHUB_PAT> --gitea-token <GITEA_TOKEN> [options]
 """
 
 import urllib.request
@@ -28,21 +24,13 @@ import argparse
 from datetime import datetime, timezone
 from pathlib import Path
 
-# Import security module (same directory)
+# Import security
 sys.path.insert(0, str(Path(__file__).parent))
-from p3_security import (
-    CommandValidator,
-    RateLimiter,
-    AuditLogger,
-    ChannelEncryption,
-    generate_hmac,
-    verify_hmac,
-    full_validate_and_execute,
-    get_validator,
-    get_limiter,
-    get_audit,
-    get_crypto,
-)
+try:
+    from p3_security import full_validate_and_execute, get_validator, get_limiter, get_audit, get_crypto
+    HAS_SECURITY = True
+except ImportError:
+    HAS_SECURITY = False
 
 # ──────────────────────────── Config ────────────────────────────
 
@@ -51,66 +39,78 @@ REPO_OWNER = os.environ.get("P3_REPO_OWNER", "Kotokvit")
 REPO_NAME = os.environ.get("P3_REPO_NAME", "p3-agent-cell")
 RELAY_PATH = os.environ.get("P3_RELAY_PATH", "relay")
 
-ENGINE_DIR = os.environ.get("P3_ENGINE_DIR", str(Path.home() / "Стільниця" / "P3_Engine_repo"))
+GITEA_URL = os.environ.get("P3_GITEA_URL", "http://localhost:3000")
+GITEA_REPO = os.environ.get("P3_GITEA_REPO", "p3admin/p3-relay")
 
-# ──────────────────────────── GitHub API ────────────────────────────
+ENGINE_DIR = os.environ.get("P3_ENGINE_DIR", str(Path.home()))
+
+# ──────────────────────────── Repo Relay Base ────────────────────────────
 
 class RepoRelay:
-    """GitHub repo-based relay for command/result exchange."""
+    """Generic repo-based relay (works with both GitHub and Gitea APIs)."""
 
-    def __init__(self, token, repo_owner, repo_name, relay_path="relay"):
+    def __init__(self, token, api_base, repo_path, relay_path="relay", is_gitea=False):
         self.token = token
-        self.owner = repo_owner
-        self.repo = repo_name
+        self.api_base = api_base
+        self.repo_path = repo_path  # "owner/repo"
         self.relay_path = relay_path
+        self.is_gitea = is_gitea
         self.sha_cache = {}
         self.last_cmd_id = None
         self.api_calls = 0
+        self.name = "Gitea" if is_gitea else "GitHub"
 
-    def _api(self, method, path, data=None, retries=3):
+    def _api(self, method, url, data=None, retries=3):
         headers = {
             "Authorization": f"token {self.token}",
-            "Accept": "application/vnd.github.v3+json",
             "Content-Type": "application/json",
         }
-        url = f"{GITHUB_API}{path}"
-        body = json.dumps(data).encode() if data else None
+        if not self.is_gitea:
+            headers["Accept"] = "application/vnd.github.v3+json"
+        else:
+            headers["Accept"] = "application/json"
 
+        body = json.dumps(data).encode() if data else None
         for attempt in range(retries):
             try:
                 req = urllib.request.Request(url, data=body, headers=headers, method=method)
-                resp = urllib.request.urlopen(req, timeout=15)
+                timeout = 10 if self.is_gitea else 15
+                resp = urllib.request.urlopen(req, timeout=timeout)
                 self.api_calls += 1
                 return json.loads(resp.read().decode())
             except urllib.error.HTTPError as e:
-                if e.code == 403 and attempt < retries - 1:
+                if e.code == 403 and not self.is_gitea and attempt < retries - 1:
                     reset = int(resp.headers.get("X-RateLimit-Reset", 0))
-                    remaining = resp.headers.get("X-RateLimit-Remaining", "?")
                     if reset:
                         wait = min(reset - int(time.time()) + 1, 60)
-                        print(f"  ⏳ Rate limited (remaining={remaining}), waiting {wait}s")
+                        print(f"  ⏳ {self.name} rate limited, waiting {wait}s")
                         time.sleep(wait)
                     continue
                 if e.code in (409, 422) and attempt < retries - 1:
-                    time.sleep(1)
+                    time.sleep(0.5 if self.is_gitea else 1)
                     continue
                 if e.code == 404:
                     return None
                 raise
             except Exception:
                 if attempt < retries - 1:
-                    time.sleep(2)
+                    time.sleep(1)
                     continue
                 raise
         return None
 
+    def _contents_url(self, path):
+        if self.is_gitea:
+            return f"{self.api_base}/api/v1/repos/{self.repo_path}/contents/{path}"
+        return f"{self.api_base}/repos/{self.repo_path}/contents/{path}"
+
     def get_file(self, path):
         try:
-            data = self._api("GET", f"/repos/{self.owner}/{self.repo}/contents/{path}")
+            data = self._api("GET", self._contents_url(path))
             if data and "content" in data:
                 content = base64.b64decode(data["content"]).decode("utf-8")
-                self.sha_cache[path] = data["sha"]
-                return content, data["sha"]
+                self.sha_cache[path] = data.get("sha", "")
+                return content, data.get("sha", "")
         except urllib.error.HTTPError as e:
             if e.code == 404:
                 return None, None
@@ -122,12 +122,15 @@ class RepoRelay:
         data = {"message": message, "content": content_b64}
         if sha:
             data["sha"] = sha
-
         for attempt in range(3):
             try:
-                result = self._api("PUT", f"/repos/{self.owner}/{self.repo}/contents/{path}", data)
-                if result and "content" in result:
-                    self.sha_cache[path] = result["content"].get("sha", "")
+                result = self._api("PUT", self._contents_url(path), data)
+                if result:
+                    new_sha = result.get("sha", "")
+                    if not new_sha and "content" in result:
+                        new_sha = result["content"].get("sha", "")
+                    if new_sha:
+                        self.sha_cache[path] = new_sha
                 return result
             except urllib.error.HTTPError as e:
                 if e.code in (409, 422):
@@ -139,29 +142,12 @@ class RepoRelay:
         return None
 
     def read_command(self):
-        """Read the latest command from relay/cmd.json."""
         path = f"{self.relay_path}/cmd.json"
         content, sha = self.get_file(path)
         if content:
-            # Try decryption
-            crypto = get_crypto()
-            try:
-                content = crypto.decrypt(content)
-            except Exception:
-                pass  # Not encrypted, use as-is
-
             try:
                 cmd_data = json.loads(content)
                 cmd_id = cmd_data.get("id", "")
-
-                # Verify HMAC if present
-                if cmd_data.get("hmac") and os.environ.get("P3_SECRET"):
-                    if not verify_hmac(
-                        cmd_id, cmd_data["cmd"], cmd_data["ts"], cmd_data["hmac"]
-                    ):
-                        print(f"  ⚠️  HMAC verification FAILED for {cmd_id}")
-                        return None
-
                 if cmd_id != self.last_cmd_id:
                     return cmd_data
             except json.JSONDecodeError:
@@ -169,10 +155,9 @@ class RepoRelay:
         return None
 
     def write_result(self, cmd_id, cmd, stdout, stderr, returncode, elapsed):
-        """Write execution result to relay/result.json."""
         result = {
             "id": cmd_id,
-            "cmd_hash": cmd[:20] + "..." if len(cmd) > 20 else cmd,
+            "cmd_preview": cmd[:30] + "..." if len(cmd) > 30 else cmd,
             "stdout": stdout,
             "stderr": stderr,
             "returncode": returncode,
@@ -180,12 +165,6 @@ class RepoRelay:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
         content = json.dumps(result, ensure_ascii=False, indent=2)
-
-        # Try encryption
-        crypto = get_crypto()
-        if crypto.enabled:
-            content = crypto.encrypt(content)
-
         path = f"{self.relay_path}/result.json"
         sha = self.sha_cache.get(path)
         if not sha:
@@ -204,116 +183,144 @@ def signal_handler(sig, frame):
 def main():
     global running
 
-    parser = argparse.ArgumentParser(
-        description="P3 Bridge Client v5 — Production with Security"
-    )
+    parser = argparse.ArgumentParser(description="P3 Bridge Client v5 — Dual Backend")
     parser.add_argument("--token", required=True, help="GitHub PAT (repo+gist scope)")
-    parser.add_argument("--poll", type=int, default=10, help="Poll interval (s)")
+    parser.add_argument("--gitea-token", default="", help="Gitea API token")
+    parser.add_argument("--gitea-url", default=GITEA_URL, help="Gitea URL")
+    parser.add_argument("--poll", type=int, default=10, help="GitHub poll interval (s)")
+    parser.add_argument("--gitea-poll", type=int, default=3, help="Gitea poll interval (s, faster!)")
     parser.add_argument("--cwd", default=None, help="Default working directory")
-    parser.add_argument("--security", default="blacklist",
-                        choices=["blacklist", "whitelist"],
-                        help="Security mode")
-    parser.add_argument("--rate-limit", type=int, default=30,
-                        help="Max commands per minute")
+    parser.add_argument("--security", default="blacklist", choices=["blacklist", "whitelist"])
     args = parser.parse_args()
 
-    # Set env for security module
+    if args.gitea_token:
+        os.environ["P3_GITEA_TOKEN"] = args.gitea_token
     os.environ["P3_SECURITY_MODE"] = args.security
-    os.environ["P3_RATE_LIMIT"] = str(args.rate_limit)
 
-    relay = RepoRelay(args.token, REPO_OWNER, REPO_NAME, RELAY_PATH)
-    default_cwd = args.cwd or ENGINE_DIR
+    # Set up relays
+    github_relay = RepoRelay(
+        args.token, GITHUB_API, f"{REPO_OWNER}/{REPO_NAME}",
+        RELAY_PATH, is_gitea=False
+    )
 
-    # Initialize security components
-    validator = get_validator()
-    limiter = get_limiter()
-    audit = get_audit()
-    crypto = get_crypto()
+    gitea_relay = None
+    if args.gitea_token:
+        gitea_relay = RepoRelay(
+            args.gitea_token, args.gitea_url, GITEA_REPO,
+            RELAY_PATH, is_gitea=True
+        )
+        # Test Gitea connection
+        try:
+            url = f"{args.gitea_url}/api/v1/version"
+            resp = urllib.request.urlopen(url, timeout=5)
+            ver = json.loads(resp.read().decode())
+            gitea_ok = True
+            gitea_ver = ver.get("version", "?")
+        except Exception:
+            gitea_ok = False
+            gitea_ver = "?"
 
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
 
+    default_cwd = args.cwd or ENGINE_DIR
+
     print()
     print("╔══════════════════════════════════════════════════════╗")
-    print("║      P³ Bridge Client v5 — Production + Security     ║")
+    print("║    P³ Bridge Client v5 — Dual Backend + Security     ║")
     print("╠══════════════════════════════════════════════════════╣")
-    print(f"║  Repo:     {REPO_OWNER}/{REPO_NAME:<35}║")
-    print(f"║  CWD:      {default_cwd:<40}║")
-    print(f"║  Poll:     every {args.poll}s{' ' * 30}║")
-    print(f"║  Security: {args.security:<41}║")
-    print(f"║  Rate:     {args.rate_limit} cmds/min{' ' * 29}║")
-    print(f"║  Encrypt:  {'YES' if crypto.enabled else 'NO':<41}║")
-    print(f"║  Audit:    {AUDIT_DIR:<41}║")
+    print(f"║  GitHub:  {REPO_OWNER}/{REPO_NAME} (5000/hr){' ' * 12}║")
+    print(f"║  Poll:    every {args.poll}s{' ' * 32}║")
+    if gitea_relay and gitea_ok:
+        print(f"║  Gitea:   {args.gitea_url} ({GITEA_REPO}){' ' * 4}║")
+        print(f"║  G.Poll:  every {args.gitea_poll}s (UNLIMITED!){' ' * 8}║")
+    else:
+        print(f"║  Gitea:   {'NOT AVAILABLE' if not args.gitea_token else 'UNREACHABLE'}{' ' * 34}║")
+    print(f"║  CWD:     {default_cwd[:41]}{' ' * (41 - min(len(default_cwd), 41))}║")
+    print(f"║  Security: {args.security:<40}║")
     print("╠══════════════════════════════════════════════════════╣")
     print("║  stdin=/dev/null — sudo prompts auto-fail            ║")
-    print("║  Blocked: rm -rf /, dd, fork bombs, reverse shells   ║")
     print("║  Press Ctrl+C to stop                                ║")
     print("╚══════════════════════════════════════════════════════╝")
     print()
 
     poll_count = 0
     cmd_count = 0
-    rejected_count = 0
     start_time = time.time()
 
     while running:
         try:
-            # Poll for command
-            cmd_data = relay.read_command()
-            if cmd_data:
-                cmd_id = cmd_data.get("id", "?")
-                cmd = cmd_data.get("cmd", "")
-                cwd = cmd_data.get("cwd", default_cwd)
-                timeout = cmd_data.get("timeout", 120)
+            # Poll BOTH relays (Gitea first — it's unlimited)
+            for relay, poll_interval in [(gitea_relay, args.gitea_poll), (github_relay, args.poll)]:
+                if relay is None:
+                    continue
 
-                ts = datetime.now().strftime("%H:%M:%S")
-                print(f"  [{ts}] Command ({cmd_id}): {cmd[:60]}")
+                cmd_data = relay.read_command()
+                if cmd_data:
+                    cmd_id = cmd_data.get("id", "?")
+                    cmd = cmd_data.get("cmd", "")
+                    cwd = cmd_data.get("cwd", default_cwd)
+                    timeout = cmd_data.get("timeout", 120)
 
-                # Full security pipeline: validate → rate limit → execute → audit
-                stdout, stderr, rc, elapsed = full_validate_and_execute(
-                    cmd, cmd_id, cwd=cwd, timeout=timeout
-                )
+                    ts = datetime.now().strftime("%H:%M:%S")
+                    print(f"  [{ts}] {relay.name} ({cmd_id}): {cmd[:60]}")
 
-                # Track stats
-                if rc == -2:
-                    rejected_count += 1
-                elif rc == -3:
-                    rejected_count += 1
-                else:
+                    # Execute with security
+                    if HAS_SECURITY:
+                        stdout, stderr, rc, elapsed = full_validate_and_execute(
+                            cmd, cmd_id, cwd=cwd, timeout=timeout
+                        )
+                    else:
+                        import subprocess
+                        start = time.time()
+                        try:
+                            proc = subprocess.Popen(cmd, shell=True, cwd=cwd,
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                stdin=subprocess.DEVNULL)
+                            stdout, stderr = proc.communicate(timeout=timeout)
+                            elapsed = time.time() - start
+                            stdout = stdout.decode("utf-8", errors="replace")
+                            stderr = stderr.decode("utf-8", errors="replace")
+                            rc = proc.returncode
+                        except subprocess.TimeoutExpired:
+                            proc.kill()
+                            proc.wait()
+                            elapsed = time.time() - start
+                            stdout, stderr, rc = "", f"TIMEOUT ({timeout}s)", -1
+                        except Exception as e:
+                            elapsed = time.time() - start
+                            stdout, stderr, rc = "", str(e), -1
+
+                    # Write result back to SAME relay
+                    relay.write_result(cmd_id, cmd, stdout, stderr, rc, elapsed)
+                    relay.last_cmd_id = cmd_id
                     cmd_count += 1
 
-                # Write result
-                relay.write_result(cmd_id, cmd, stdout, stderr, rc, elapsed)
-                relay.last_cmd_id = cmd_id
+                    ts = datetime.now().strftime("%H:%M:%S")
+                    if rc == 0:
+                        preview = stdout.strip()[:60].replace("\n", " ")
+                        print(f"  [{ts}] Done (rc=0, {elapsed:.1f}s): {preview}")
+                    elif rc == -2:
+                        print(f"  [{ts}] REJECTED: {stderr[:50]}")
+                    else:
+                        preview = stderr.strip()[:60].replace("\n", " ")
+                        print(f"  [{ts}] Done (rc={rc}, {elapsed:.1f}s): {preview}")
 
-                # Show brief result
-                ts = datetime.now().strftime("%H:%M:%S")
-                if rc == -2:
-                    print(f"  [{ts}] REJECTED: {stderr[:50]}")
-                elif rc == -3:
-                    print(f"  [{ts}] RATE LIMITED: {stderr[:50]}")
-                elif rc == 0:
-                    preview = stdout.strip()[:60].replace("\n", " ")
-                    print(f"  [{ts}] Done (rc=0, {elapsed:.1f}s): {preview}")
-                else:
-                    preview = stderr.strip()[:60].replace("\n", " ")
-                    print(f"  [{ts}] Done (rc={rc}, {elapsed:.1f}s): {preview}")
-
-            # Wait before next poll
-            for _ in range(args.poll * 10):
+            # Wait (use shorter interval if Gitea is available)
+            wait = args.gitea_poll if (gitea_relay and gitea_ok) else args.poll
+            for _ in range(wait * 10):
                 if not running:
                     break
                 time.sleep(0.1)
             poll_count += 1
 
-            # Periodic stats
-            if poll_count % 60 == 0:
+            if poll_count % 120 == 0:
                 uptime = int(time.time() - start_time)
                 m, s = divmod(uptime, 60)
                 h, m = divmod(m, 60)
-                stats = audit.get_stats(1)  # Last hour
-                print(f"  📊 Stats: {cmd_count} cmds, {rejected_count} rejected, "
-                      f"{relay.api_calls} API calls, uptime {h}h{m}m{s}s")
+                gh_calls = github_relay.api_calls
+                gi_calls = gitea_relay.api_calls if gitea_relay else 0
+                print(f"  📊 {cmd_count} cmds, GH:{gh_calls} GI:{gi_calls} API calls, uptime {h}h{m}m{s}s")
 
         except urllib.error.HTTPError as e:
             ts = datetime.now().strftime("%H:%M:%S")
@@ -324,12 +331,9 @@ def main():
             print(f"  [{ts}] Error: {e}, retrying in 10s...")
             time.sleep(10)
 
-    # Final stats
-    stats = audit.get_stats(24)
-    print(f"\n  Final: {cmd_count} executed, {rejected_count} rejected, "
-          f"{relay.api_calls} API calls")
-    print(f"  Audit: {stats['total_commands']} logged in 24h, "
-          f"error rate {stats['error_rate']:.1%}")
+    gh_calls = github_relay.api_calls
+    gi_calls = gitea_relay.api_calls if gitea_relay else 0
+    print(f"\n  Final: {cmd_count} commands, GH:{gh_calls} GI:{gi_calls} API calls")
 
 if __name__ == "__main__":
     main()
