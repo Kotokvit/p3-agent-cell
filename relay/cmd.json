@@ -1,7 +1,0 @@
-{
-  "id": "8396f459",
-  "cmd": "echo '✅ P3 Bridge v5 — DUAL BACKEND' && echo 'GitHub: 5000/hr (external)' && echo 'Gitea:  ∞ UNLIMITED (local)' && echo '' && echo 'PC Status:' && uname -n && python3 --version && docker ps --format '{{.Names}}: {{.Status}}' 2>/dev/null | head -3 && echo '' && echo 'Gitea:' && curl -s http://localhost:3000/api/v1/version 2>/dev/null || echo 'N/A'",
-  "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
-  "timeout": 15,
-  "ts": 1786968017.6446857
-}
