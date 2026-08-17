@@ -4,5 +4,5 @@
   "stdout": "=== version ===\n{\"version\":\"1.27.2\"}\n=== settings ===\n{\"max_response_items\":50,\"default_paging_num\":30,\"default_git_trees_per_page\":1000,\"default_max_blob_size\":10485760,\"default_max_response_size\":104857600}\n=== repos/search ===\n{\"ok\":true,\"data\":[]}\n=== admin/orgs ===\n{\"message\":\"token is required\",\"url\":\"http://localhost:3000/api/swagger\"}",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T10:54:39"
+  "timestamp": "2026-08-17T10:54:43"
 }
