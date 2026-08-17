@@ -4,5 +4,5 @@
   "stdout": "=== P3 GITEA SETUP ===\nGitea HTTP: 000\nAPI check: []\nGitea needs first-run install...\n",
   "stderr": "/bin/sh: рядок 17: line: команди не знайдено\n",
   "returncode": 127,
-  "timestamp": "2026-08-17T10:33:12"
+  "timestamp": "2026-08-17T10:33:16"
 }
