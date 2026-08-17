@@ -1,7 +1,7 @@
 {
-  "id": "eb4ddee2",
-  "cmd": "\n# Check if download completed\nls -la /usr/local/bin/gitea 2>/dev/null && gitea --version 2>/dev/null && echo 'GITEA_INSTALLED' || echo 'NOT_YET'\n# If not, try pacman\npacman -Ss gitea 2>/dev/null | head -5\n",
+  "id": "3fdd566b",
+  "cmd": "ls -la /usr/local/bin/gitea 2>/dev/null; echo '---'; gitea --version 2>/dev/null || echo 'GITEA_NOT_FOUND'; echo '---'; which gitea 2>/dev/null || echo 'NOT_IN_PATH'",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
   "timeout": 10,
-  "ts": 1786949317.2104845
+  "ts": 1786949375.8562973
 }
