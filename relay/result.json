@@ -1,8 +1,8 @@
 {
-  "id": "baa3282d",
-  "cmd": "\n# Check AUR for gitea\nwhich yay 2>/dev/null && echo 'HAS_YAY' || echo 'NO_YAY'\nwhich paru 2>/dev/null && echo 'HAS_PARU' || echo 'NO_PARU'\nwhich pacaur 2>/dev/null && echo 'HAS_PACAUR' || echo 'NO_PA",
-  "stdout": "/usr/bin/yay\nHAS_YAY\n/usr/bin/paru\nHAS_PARU\nNO_PACAUR\n---\nextra/forge-sparks 1.0.1-1 (gnome-circle)\n    Simple notifier app with support for Github, GitLab, Gitea and Forgejo\nextra/gitea 1.27.1-2\n    Painless self-hosted Git service, community managed.\nextra/gitea-runner 3.0.0-1\n    Official runner for Gitea\nextra/tea 0.15.0-1\n    A command line tool to interact with Gitea servers\n---\nNO_FILE\n",
+  "id": "4765a91c",
+  "cmd": "\n# Install gitea from official repos (no AUR needed!)\necho 'Installing gitea from extra...'\nsudo pacman -Sy --noconfirm gitea 2>&1 | tail -10\necho '---'\ngitea --version 2>&1\necho '---'\nwhich gitea\n",
+  "stdout": "Installing gitea from extra...\n    sqlite: SQLite support [встановлено]\n    gitea-runner: Official runner for Gitea\n    tea: A command line tool to interact with Gitea servers\n:: Запускаємо дії після транзакції...\n(1/4) Creating system user accounts...\nCreating group 'gitea' with GID 948.\nCreating user 'gitea' (Gitea daemon user) with UID 948 and GID 948.\n(2/4) Creating temporary files...\n(3/4) Reloading system manager configuration...\n(4/4) Arming ConditionNeedsUpdate...\n---\ngitea version 1.27.2 built with go1.26.6-X:jsonv2 : bindata, sqlite, sqlite_unlock_notify, pam, external_libzstd\n---\n/usr/bin/gitea\n",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T09:52:57"
+  "timestamp": "2026-08-17T09:53:27"
 }
