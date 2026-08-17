@@ -1,25 +1,19 @@
 FROM archlinux:latest
 
-# Metadata
 LABEL maintainer="P3-Agent-Cell"
 LABEL description="Isolated root-access container for AI agents"
 
-# Fix mirrors (CachyOS uses own mirrors, Arch base image needs proper ones)
-RUN pacman -Sy --noconfirm archlinux-keyring && \
+# Initialize pacman and install packages in one step
+# Arch: gfortran is part of gcc, no separate package
+RUN rm -rf /etc/pacman.d/gnupg && \
+    pacman-key --init && \
+    pacman-key --populate archlinux && \
+    pacman -Syu --noconfirm && \
     pacman -S --noconfirm --needed \
-    # Base system
     base-devel sudo git curl wget \
-    # Python ecosystem
     python python-pip python-virtualenv \
-    # Zig compiler
-    # (installed manually below since not in official repos) \
-    # Dev tools
-    gcc gfortran cmake make pkg-config \
-    # Network tools
+    gcc cmake make pkg-config \
     openssh rsync \
-    # GPU support (CUDA toolkit)
-    # (nvidia-container-toolkit handles device passthrough from host) \
-    # Utilities
     htop vim nano tmux jq \
     && pacman -Sc --noconfirm
 
@@ -28,21 +22,22 @@ RUN useradd -m -s /bin/bash agent && \
     echo "agent ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     echo "root ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-# Working directory for agent
+# Working directory
 RUN mkdir -p /workspace && chown agent:agent /workspace
 WORKDIR /workspace
 
-# Install Zig (latest)
+# Install Zig
 RUN curl -L https://ziglang.org/download/0.14.0/zig-linux-x86_64-0.14.0.tar.xz -o /tmp/zig.tar.xz && \
     tar -xf /tmp/zig.tar.xz -C /opt && \
     ln -s /opt/zig-linux-x86_64-0.14.0/zig /usr/local/bin/zig && \
-    rm /tmp/zig.tar.xz
+    rm /tmp/zig.tar.xz && \
+    zig version
 
-# Install conda (miniforge - community conda)
+# Install conda (miniforge)
 RUN curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -o /tmp/miniforge.sh && \
     bash /tmp/miniforge.sh -b -p /opt/conda && \
     ln -s /opt/conda/bin/conda /usr/local/bin/conda && \
-    ln -s /opt/conda/bin/mamba /usr/local/bin/mamba && \
+    ln -s /opt/conda/bin/mamba /usr/local/bin/mamba 2>/dev/null; \
     rm /tmp/miniforge.sh && \
     chown -R agent:agent /opt/conda
 
@@ -52,9 +47,5 @@ ENV HOME="/workspace"
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
-# Switch to agent user
 USER agent
-
-# Entry point: keep container alive
 CMD ["sleep", "infinity"]
-
