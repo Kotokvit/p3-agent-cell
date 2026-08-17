@@ -1,8 +1,8 @@
 {
-  "id": "6d5452ee",
-  "cmd": "\n# Check gitea config and database\ncat /etc/gitea/app.ini 2>/dev/null | head -30\necho '=== DB ==='\nls -la /var/lib/gitea/data/ 2>/dev/null\necho '=== LOGS ==='\nsudo journalctl -u gitea --no-pager -n 20",
-  "stdout": "",
-  "stderr": "Timeout 10s",
-  "returncode": -1,
-  "timestamp": "2026-08-17T10:00:33"
+  "id": "7ff9d499",
+  "cmd": "echo ALIVE && curl -s http://localhost:3000/ -o /dev/null -w '%{http_code}' && echo OK",
+  "stdout": "ALIVE\n200OK\n",
+  "stderr": "",
+  "returncode": 0,
+  "timestamp": "2026-08-17T10:00:41"
 }
