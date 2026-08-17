@@ -1,7 +1,7 @@
 {
-  "id": "gitea-1786951576",
-  "cmd": "curl -s http://localhost:3000/api/v1/nodeinfo",
+  "id": "gitea-1786951586",
+  "cmd": "sudo gitea admin user list 2>/dev/null | grep -c \"p3admin\" || echo \"0\"",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
-  "timeout": 10,
-  "ts": 1786951576.2656293
+  "timeout": 15,
+  "ts": 1786951586.5540211
 }
