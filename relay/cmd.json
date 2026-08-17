@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786953685",
-  "cmd": "curl -s -X POST 'http://localhost:3000/api/v1/repos/p3admin/p3-relay/contents/relay/test.json' -H 'Authorization: token 4d4cfffee333b6a83fd350dd8a5dd11cccdcddc7' -H 'Content-Type: application/json' -d '{\"message\":\"test write\",\"content\":\"eyJ0ZXN0IjogImhlbGxvIGZyb20gZ2l0ZWEifQ==\"}' 2>/dev/null | head -c 300",
+  "id": "p3-1786953714",
+  "cmd": "curl -s 'http://localhost:3000/api/v1/repos/p3admin/p3-relay/contents/relay/test.json' -H 'Authorization: token 4d4cfffee333b6a83fd350dd8a5dd11cccdcddc7' 2>/dev/null",
   "cwd": "/home/vitalij",
   "timeout": 10,
-  "ts": 1786953685.6250567
+  "ts": 1786953714.7342272
 }
