@@ -1,0 +1,23 @@
+[Unit]
+Description=P³ Agent Cell Warden — Bridge client routing commands into isolated container
+After=docker.service network-online.target
+Wants=docker.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/vitalij/Стільниця/p3-agent-cell/warden/p3_warden.py --token ${GITHUB_TOKEN} --gist 9c3e8078b48c4743593d945818264dd8
+Restart=on-failure
+RestartSec=10
+StartLimitBurst=5
+StartLimitIntervalSec=300
+
+# Security: token from env file, NOT in ps aux
+EnvironmentFile=/home/vitalij/.config/p3-agent-cell/token.env
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=p3-warden
+
+[Install]
+WantedBy=default.target
