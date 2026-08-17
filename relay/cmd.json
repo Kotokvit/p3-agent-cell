@@ -1,7 +1,7 @@
 {
-  "id": "gitea-1786951569",
-  "cmd": "curl -s http://localhost:3000/ -o /dev/null -w \"%{http_code}\"",
+  "id": "gitea-1786951576",
+  "cmd": "curl -s http://localhost:3000/api/v1/nodeinfo",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
   "timeout": 10,
-  "ts": 1786951569.917799
+  "ts": 1786951576.2656293
 }
