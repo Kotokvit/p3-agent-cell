@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786952143",
-  "cmd": "curl -s http://localhost:3000/ -o /dev/null -w '%{http_code}' && echo '' && curl -s http://localhost:3000/api/v1/nodeinfo 2>/dev/null | head -c 200",
-  "stdout": "200\nNot Found. <a href=\"/\">Go to default page</a>.",
+  "id": "p3-1786952171",
+  "cmd": "curl -s -X POST http://localhost:3000/install -H 'Content-Type: application/x-www-form-urlencoded' --data-urlencode db_type=SQLite3 --data-urlencode db_path=/var/lib/gitea/data/gitea.db --data-urlenco",
+  "stdout": "Not Found. <a href=\"/\">Go to default page</a>. HTTP_CODE:404",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T10:35:53"
+  "timestamp": "2026-08-17T10:36:12"
 }
