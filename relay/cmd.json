@@ -1,7 +1,7 @@
 {
-  "id": "13fa12b9",
-  "cmd": "\n# Check if gitea is already installed\nwhich gitea 2>/dev/null && echo 'GITEA_EXISTS' || echo 'NEED_INSTALL'\n\n# Check available RAM and disk\necho '---'\nfree -m | head -2\necho '---'\n# Check if port 3000 is free\nss -tlnp | grep ':3000' 2>/dev/null || echo 'PORT_3000_FREE'\nss -tlnp | grep ':3001' 2>/dev/null || echo 'PORT_3001_FREE'\n",
+  "id": "2cd2abe0",
+  "cmd": "\n# Download and install Gitea (single binary, ~60MB)\necho 'Downloading Gitea...'\nsudo curl -fsSL 'https://dl.gitea.com/gitea/1.24.0/gitea-1.24.0-linux-amd64' -o /usr/local/bin/gitea\nsudo chmod +x /usr/local/bin/gitea\necho 'Downloaded'\ngitea --version\n\n# Create required directories\nsudo mkdir -p /var/lib/gitea\nsudo mkdir -p /var/log/gitea\nsudo mkdir -p /etc/gitea\nsudo chown -R vitalij:vitalij /var/lib/gitea /var/log/gitea /etc/gitea\n\necho 'GITEA_READY'\n",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
-  "timeout": 10,
-  "ts": 1786949218.1506314
+  "timeout": 60,
+  "ts": 1786949238.049837
 }
