@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786952625",
-  "cmd": "sudo ls -la /var/lib/gitea/data/ 2>&1 && sudo cat /var/lib/gitea/custom/conf/app.ini 2>/dev/null | head -40 || echo 'no-custom-conf'",
+  "id": "p3-1786952662",
+  "cmd": "sudo ls /var/lib/gitea/data/",
   "cwd": "/home/vitalij",
-  "timeout": 15,
-  "ts": 1786952625.578474
+  "timeout": 10,
+  "ts": 1786952662.0836217
 }
