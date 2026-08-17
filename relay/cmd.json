@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786952700",
-  "cmd": "curl -sS http://localhost:3000/api/v1/repos/search 2>&1 | head -c 300",
+  "id": "p3-1786952784",
+  "cmd": "echo ALIVE",
   "cwd": "/home/vitalij",
-  "timeout": 10,
-  "ts": 1786952700.466802
+  "timeout": 5,
+  "ts": 1786952784.022275
 }
