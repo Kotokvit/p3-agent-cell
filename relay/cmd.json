@@ -1,7 +1,1 @@
-{
-  "id": "gitea-1786951691",
-  "cmd": "curl -s -X POST -u \"p3admin:P3Gitea2024!Secure\" http://localhost:3000/api/v1/users/p3admin/tokens -H \"Content-Type: application/json\" -d '{\"name\": \"p3-relay\", \"scopes\": [\"write:repository\", \"write:issue\"]}'",
-  "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
-  "timeout": 10,
-  "ts": 1786951691.0232537
-}
+{"id": "chk1", "cmd": "curl -s http://localhost:3000/api/v1/nodeinfo 2>/dev/null | head -c 200", "cwd": "/home/vitalij", "timeout": 10, "ts": 1786951713.6353}
