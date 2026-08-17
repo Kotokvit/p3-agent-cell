@@ -1,7 +1,7 @@
 {
-  "id": "baa3282d",
-  "cmd": "\n# Check AUR for gitea\nwhich yay 2>/dev/null && echo 'HAS_YAY' || echo 'NO_YAY'\nwhich paru 2>/dev/null && echo 'HAS_PARU' || echo 'NO_PARU'\nwhich pacaur 2>/dev/null && echo 'HAS_PACAUR' || echo 'NO_PACAUR'\necho '---'\n# Check if there's a packaged version\npacman -Ss gitea 2>/dev/null | head -10\necho '---'\n# Check if file already downloaded partially\nls -la ~/gitea 2>/dev/null || echo 'NO_FILE'\n",
+  "id": "4765a91c",
+  "cmd": "\n# Install gitea from official repos (no AUR needed!)\necho 'Installing gitea from extra...'\nsudo pacman -Sy --noconfirm gitea 2>&1 | tail -10\necho '---'\ngitea --version 2>&1\necho '---'\nwhich gitea\n",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
-  "timeout": 15,
-  "ts": 1786949574.080741
+  "timeout": 60,
+  "ts": 1786949591.878511
 }
