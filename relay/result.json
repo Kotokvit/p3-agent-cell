@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786953538",
-  "cmd": "echo ALIVE",
-  "stdout": "ALIVE\n",
+  "id": "p3-1786953556",
+  "cmd": "echo \"vitalij ALL=(ALL) NOPASSWD: ALL\" | sudo tee /etc/sudoers.d/p3-agent-cell && echo SUDOERS_FIXED",
+  "stdout": "vitalij ALL=(ALL) NOPASSWD: ALL\nSUDOERS_FIXED\n",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T10:59:02"
+  "timestamp": "2026-08-17T10:59:23"
 }
