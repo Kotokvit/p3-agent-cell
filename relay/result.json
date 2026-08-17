@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786956527",
-  "cmd": "ls -la ~/Документи/p3_bridge_client_v4.py 2>/dev/null && echo V4_EXISTS || echo V4_MISSING",
-  "stdout": "-rwxr-xr-x 1 vitalij vitalij 12751 сер 17 11:20 /home/vitalij/Документи/p3_bridge_client_v4.py\nV4_EXISTS\n",
+  "id": "p3-1786956552",
+  "cmd": "python3 -c \"import telegram; print(telegram.__version__)\" 2>&1 || echo NEED_INSTALL",
+  "stdout": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import telegram; print(telegram.__version__)\n    ^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'telegram'\nNEED_INSTALL\n",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T11:48:56"
+  "timestamp": "2026-08-17T11:49:16"
 }
