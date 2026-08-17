@@ -1,7 +1,7 @@
 {
-  "id": "0443a26a",
-  "cmd": "curl -s http://localhost:3000/api/v1/version && echo '' && curl -s -H 'Authorization: token 4d4cfffee333b6a83fd350dd8a5dd11cccdcddc7' 'http://localhost:3000/api/v1/repos/search?limit=5' | python3 -c 'import sys,json; d=json.load(sys.stdin); [print(r[\"full_name\"]) for r in d.get(\"data\",d)[:5]]' 2>/dev/null || echo 'Gitea not responding'",
+  "id": "21aab6ab",
+  "cmd": "echo '=== Gitea Test ===' && curl -s http://localhost:3000/api/v1/version 2>/dev/null || echo 'Gitea not running' && echo '' && echo '=== Docker ===' && docker ps --format '{{.Names}}: {{.Status}}' 2>/dev/null | head -5",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
   "timeout": 15,
-  "ts": 1786967344.7795107
+  "ts": 1786967372.4827414
 }
