@@ -1,8 +1,8 @@
 {
-  "id": "2cd2abe0",
-  "cmd": "\n# Download and install Gitea (single binary, ~60MB)\necho 'Downloading Gitea...'\nsudo curl -fsSL 'https://dl.gitea.com/gitea/1.24.0/gitea-1.24.0-linux-amd64' -o /usr/local/bin/gitea\nsudo chmod +x /usr",
+  "id": "f67e15d0",
+  "cmd": "\n# Kill any hanging sudo/curl processes\npkill -f 'curl.*gitea' 2>/dev/null\npkill -f 'sudo.*curl' 2>/dev/null\n\n# Download to home dir (no sudo needed)\necho 'Downloading Gitea to ~/...'\ncurl -fsSL --con",
   "stdout": "",
-  "stderr": "Timeout 60s",
-  "returncode": -1,
-  "timestamp": "2026-08-17T09:52:24"
+  "stderr": "",
+  "returncode": -15,
+  "timestamp": "2026-08-17T09:52:35"
 }
