@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786952192",
-  "cmd": "echo '=== Gitea version ===' && gitea --version 2>/dev/null && echo '=== Config check ===' && ls -la /etc/gitea/ 2>/dev/null && cat /etc/gitea/app.ini 2>/dev/null | head -30 && echo '=== Service status ===' && sudo systemctl status gitea 2>/dev/null | head -15 && echo '=== Data dir ===' && ls -la /var/lib/gitea/ 2>/dev/null | head -10",
+  "id": "p3-1786952205",
+  "cmd": "sudo cat /etc/gitea/app.ini 2>/dev/null | head -80",
   "cwd": "/home/vitalij",
-  "timeout": 20,
-  "ts": 1786952192.0632033
+  "timeout": 15,
+  "ts": 1786952205.5730894
 }
