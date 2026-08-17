@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786952834",
-  "cmd": "sudo ls -la /var/lib/gitea/data/ && sudo ls -la /var/lib/gitea/custom/ 2>/dev/null || echo 'no-custom-dir'",
+  "id": "p3-1786952922",
+  "cmd": "sudo mkdir -p /var/lib/gitea/custom/conf",
   "cwd": "/home/vitalij",
   "timeout": 10,
-  "ts": 1786952834.4395106
+  "ts": 1786952922.4805844
 }
