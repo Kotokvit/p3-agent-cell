@@ -1,7 +1,7 @@
 {
-  "id": "f67e15d0",
-  "cmd": "\n# Kill any hanging sudo/curl processes\npkill -f 'curl.*gitea' 2>/dev/null\npkill -f 'sudo.*curl' 2>/dev/null\n\n# Download to home dir (no sudo needed)\necho 'Downloading Gitea to ~/...'\ncurl -fsSL --connect-timeout 30 'https://dl.gitea.com/gitea/1.24.0/gitea-1.24.0-linux-amd64' -o ~/gitea 2>&1\nchmod +x ~/gitea\nls -la ~/gitea\necho '---'\n~/gitea --version 2>&1\n",
+  "id": "baa3282d",
+  "cmd": "\n# Check AUR for gitea\nwhich yay 2>/dev/null && echo 'HAS_YAY' || echo 'NO_YAY'\nwhich paru 2>/dev/null && echo 'HAS_PARU' || echo 'NO_PARU'\nwhich pacaur 2>/dev/null && echo 'HAS_PACAUR' || echo 'NO_PACAUR'\necho '---'\n# Check if there's a packaged version\npacman -Ss gitea 2>/dev/null | head -10\necho '---'\n# Check if file already downloaded partially\nls -la ~/gitea 2>/dev/null || echo 'NO_FILE'\n",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
-  "timeout": 90,
-  "ts": 1786949515.0633624
+  "timeout": 15,
+  "ts": 1786949574.080741
 }
