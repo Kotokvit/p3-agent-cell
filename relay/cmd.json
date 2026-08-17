@@ -1,7 +1,7 @@
 {
-  "id": "8db38e07",
-  "cmd": "echo 'V3_CONNECTED' && whoami && sudo docker ps --format '{{.Names}}: {{.Status}}' 2>/dev/null",
+  "id": "77a3429a",
+  "cmd": "echo '=== SYSTEM ===' && uname -a && echo '=== GPU ===' && nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader && echo '=== RAM ===' && free -h | head -2 && echo '=== DISK ===' && df -h / | tail -1",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
   "timeout": 15,
-  "ts": 1786949162.393059
+  "ts": 1786949182.6295357
 }
