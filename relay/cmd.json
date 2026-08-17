@@ -1,7 +1,7 @@
 {
-  "id": "90594ce7",
-  "cmd": "echo '=== P3 Bridge v5 Test ===' && python3 --version && pip --version 2>/dev/null || echo 'pip not found' && which docker && docker --version",
+  "id": "d0e69e96",
+  "cmd": "echo '=== P3 Bridge v5 Deploy Test ===' && python3 --version && pip --version 2>/dev/null || echo 'pip: N/A' && which docker && docker --version 2>/dev/null || echo 'docker: N/A' && ls -la ~/Стільниця/ 2>/dev/null || ls -la ~/Desktop/ 2>/dev/null || echo 'no desktop dir'",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
   "timeout": 15,
-  "ts": 1786966286.7601922
+  "ts": 1786966313.3956647
 }
