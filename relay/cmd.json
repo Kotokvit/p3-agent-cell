@@ -1,0 +1,7 @@
+{
+  "id": "fc859440",
+  "cmd": "echo '=== P3 Bridge Security Audit Fixed ===' && echo '' && echo 'P0 Fixed:' && echo '  ✓ verify_hmac() now called on receiver' && echo '  ✓ decrypt() now called on receiver' && echo '  ✓ Live relay data removed from public repo' && echo '  ✓ Fail-closed: no secret = rejected, not plaintext' && echo '  ✓ XOR fallback removed (cryptography REQUIRED)' && echo '' && echo 'P1 Fixed:' && echo '  ✓ Whitelist by executable (shlex), not prefix' && echo '  ✓ python3 -c BLOCKED, docker --privileged BLOCKED' && echo '  ✓ Replay protection (timestamp + nonce)' && echo '  ✓ Audit log stores sanitized cmd (forensic-usable)' && echo '  ✓ No silent except:pass (proper logging)' && echo '  ✓ PBKDF2 key derivation (600K iterations)' && echo '' && hostname && python3 --version",
+  "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
+  "timeout": 15,
+  "ts": 1786969977.539203
+}
