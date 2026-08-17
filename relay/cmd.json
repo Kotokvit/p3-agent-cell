@@ -1,7 +1,7 @@
 {
-  "id": "gitea-1786951644",
-  "cmd": "sudo gitea admin user create --admin --username p3admin --password \"P3Gitea2024!Secure\" --email p3admin@localhost 2>&1 || echo \"CLI_FAILED\"",
+  "id": "gitea-1786951667",
+  "cmd": "curl -s -u \"p3admin:P3Gitea2024!Secure\" http://localhost:3000/api/v1/users/p3admin/tokens",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
-  "timeout": 15,
-  "ts": 1786951644.6008284
+  "timeout": 10,
+  "ts": 1786951667.7629364
 }
