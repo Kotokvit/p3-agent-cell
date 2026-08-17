@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786953274",
-  "cmd": "echo \"=== version ===\" && curl -s http://localhost:3000/api/v1/version && echo \"\" && echo \"=== settings ===\" && curl -s http://localhost:3000/api/v1/settings/api && echo \"\" && echo \"=== repos/search ===\" && curl -s http://localhost:3000/api/v1/repos/search && echo \"\" && echo \"=== admin/orgs ===\" && curl -s http://localhost:3000/api/v1/admin/orgs",
+  "id": "p3-1786953296",
+  "cmd": "sudo gitea admin user create --admin --username p3admin --password P3Gitea2024xSecure --email p3admin@localhost -c /etc/gitea/app.ini 2>&1",
   "cwd": "/home/vitalij",
-  "timeout": 10,
-  "ts": 1786953274.4578552
+  "timeout": 15,
+  "ts": 1786953296.6096725
 }
