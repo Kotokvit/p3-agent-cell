@@ -1,8 +1,8 @@
 {
-  "id": "gitea-full-setup",
-  "cmd": "set -e\necho \"=== P3 GITEA SETUP ===\"\n\n# 1. Check Gitea is running\nHTTP_CODE=\"000\"\necho \"Gitea HTTP: $HTTP_CODE\"\n\n# 2. Check if API is available (already installed)\nAPI_CHECK=\necho \"API check: [$API_CH",
-  "stdout": "=== P3 GITEA SETUP ===\nGitea HTTP: 000\nAPI check: []\nGitea needs first-run install...\n",
-  "stderr": "/bin/sh: рядок 17: line: команди не знайдено\n",
-  "returncode": 127,
-  "timestamp": "2026-08-17T10:33:16"
+  "id": "p3-1786952129",
+  "cmd": "echo ALIVE_CHECK_1786952129",
+  "stdout": "ALIVE_CHECK_1786952129\n",
+  "stderr": "",
+  "returncode": 0,
+  "timestamp": "2026-08-17T10:35:32"
 }
