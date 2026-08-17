@@ -1,7 +1,7 @@
 {
-  "id": "4765a91c",
-  "cmd": "\n# Install gitea from official repos (no AUR needed!)\necho 'Installing gitea from extra...'\nsudo pacman -Sy --noconfirm gitea 2>&1 | tail -10\necho '---'\ngitea --version 2>&1\necho '---'\nwhich gitea\n",
+  "id": "b5386b76",
+  "cmd": "\n# Start gitea via systemd\nsudo systemctl enable gitea\nsudo systemctl start gitea\nsleep 3\nsudo systemctl status gitea --no-pager | head -15\necho '---'\n# Test if it's responding\ncurl -s http://localhost:3000/ -o /dev/null -w 'HTTP %{http_code}' 2>&1\necho ''\ncurl -s http://localhost:3000/api/v1/version 2>&1\n",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
-  "timeout": 60,
-  "ts": 1786949591.878511
+  "timeout": 20,
+  "ts": 1786949618.0644732
 }
