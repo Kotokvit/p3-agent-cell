@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786953556",
-  "cmd": "echo \"vitalij ALL=(ALL) NOPASSWD: ALL\" | sudo tee /etc/sudoers.d/p3-agent-cell && echo SUDOERS_FIXED",
+  "id": "p3-1786953579",
+  "cmd": "sudo -u gitea gitea admin user create --admin --username p3admin --password P3Gitea2024xSecure --email p3admin@localhost -c /etc/gitea/app.ini 2>&1",
   "cwd": "/home/vitalij",
-  "timeout": 10,
-  "ts": 1786953556.8582463
+  "timeout": 20,
+  "ts": 1786953579.7231839
 }
