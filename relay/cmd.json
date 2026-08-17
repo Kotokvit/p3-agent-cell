@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786953296",
-  "cmd": "sudo gitea admin user create --admin --username p3admin --password P3Gitea2024xSecure --email p3admin@localhost -c /etc/gitea/app.ini 2>&1",
+  "id": "p3-1786953318",
+  "cmd": "sudo -u gitea gitea admin user create --admin --username p3admin --password P3Gitea2024xSecure --email p3admin@localhost -c /etc/gitea/app.ini 2>&1",
   "cwd": "/home/vitalij",
   "timeout": 15,
-  "ts": 1786953296.6096725
+  "ts": 1786953318.8926933
 }
