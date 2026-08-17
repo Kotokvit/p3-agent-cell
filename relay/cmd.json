@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786953363",
-  "cmd": "sudo docker run --rm -v /etc/sudoers.d:/sudoers:rw archlinux bash -c 'echo \"vitalij ALL=(ALL) NOPASSWD: ALL\" > /sudoers/p3-agent-cell'",
+  "id": "p3-1786953399",
+  "cmd": "echo ALIVE",
   "cwd": "/home/vitalij",
-  "timeout": 15,
-  "ts": 1786953363.0124502
+  "timeout": 5,
+  "ts": 1786953399.506264
 }
