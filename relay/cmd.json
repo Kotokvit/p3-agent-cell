@@ -1,7 +1,7 @@
 {
-  "id": "c3fdaf52",
-  "cmd": "echo 'BRIDGE_V3_ALIVE' && whoami && date",
+  "id": "8db38e07",
+  "cmd": "echo 'V3_CONNECTED' && whoami && sudo docker ps --format '{{.Names}}: {{.Status}}' 2>/dev/null",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
-  "timeout": 10,
-  "ts": 1786948294.0330179
+  "timeout": 15,
+  "ts": 1786949162.393059
 }
