@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786952129",
-  "cmd": "echo ALIVE_CHECK_1786952129",
+  "id": "p3-1786952143",
+  "cmd": "curl -s http://localhost:3000/ -o /dev/null -w '%{http_code}' && echo '' && curl -s http://localhost:3000/api/v1/nodeinfo 2>/dev/null | head -c 200",
   "cwd": "/home/vitalij",
-  "timeout": 10,
-  "ts": 1786952129.3079731
+  "timeout": 15,
+  "ts": 1786952143.7276602
 }
