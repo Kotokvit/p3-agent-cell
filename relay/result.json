@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786953250",
-  "cmd": "sudo systemctl status gitea | head -5 && echo --- && curl -s http://localhost:3000/ -o /dev/null -w \"HTTP:%{http_code}\" && echo \"\" && curl -s http://localhost:3000/api/v1/nodeinfo | head -c 200",
-  "stdout": "● gitea.service - Gitea (Git with a cup of tea)\n     Loaded: loaded (/usr/lib/systemd/system/gitea.service; enabled; preset: disabled)\n     Active: active (running) since Mon 2026-08-17 10:53:56 EEST; 25s ago\n Invocation: 0d35a7c0d2374a36bbee6a3cc6ffd47c\n   Main PID: 44837 (gitea)\n---\nHTTP:200\n404 page not found\n",
+  "id": "p3-1786953274",
+  "cmd": "echo \"=== version ===\" && curl -s http://localhost:3000/api/v1/version && echo \"\" && echo \"=== settings ===\" && curl -s http://localhost:3000/api/v1/settings/api && echo \"\" && echo \"=== repos/search =",
+  "stdout": "=== version ===\n{\"version\":\"1.27.2\"}\n=== settings ===\n{\"max_response_items\":50,\"default_paging_num\":30,\"default_git_trees_per_page\":1000,\"default_max_blob_size\":10485760,\"default_max_response_size\":104857600}\n=== repos/search ===\n{\"ok\":true,\"data\":[]}\n=== admin/orgs ===\n{\"message\":\"token is required\",\"url\":\"http://localhost:3000/api/swagger\"}",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T10:54:21"
+  "timestamp": "2026-08-17T10:54:39"
 }
