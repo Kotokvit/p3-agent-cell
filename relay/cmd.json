@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786953179",
-  "cmd": "sudo grep -E \"DB_TYPE|PATH|INSTALL_LOCK\" /etc/gitea/app.ini | head -10",
+  "id": "p3-1786953200",
+  "cmd": "sudo grep -n \"^DB_TYPE\\|^INSTALL_LOCK\\|^PATH\" /etc/gitea/app.ini",
   "cwd": "/home/vitalij",
   "timeout": 10,
-  "ts": 1786953179.8136976
+  "ts": 1786953200.0278113
 }
