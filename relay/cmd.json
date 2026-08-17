@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786956527",
-  "cmd": "ls -la ~/Документи/p3_bridge_client_v4.py 2>/dev/null && echo V4_EXISTS || echo V4_MISSING",
+  "id": "p3-1786956552",
+  "cmd": "python3 -c \"import telegram; print(telegram.__version__)\" 2>&1 || echo NEED_INSTALL",
   "cwd": "/home/vitalij",
   "timeout": 10,
-  "ts": 1786956527.9956977
+  "ts": 1786956552.1164281
 }
