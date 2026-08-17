@@ -1,0 +1,19 @@
+# Live relay data — NEVER commit live command/result payloads!
+relay/cmd.json
+relay/result.json
+relay/test.json
+relay/*.json
+
+# Gitea config with secrets
+relay/gitea_app.ini
+
+# Runtime data
+data/
+*.log
+__pycache__/
+*.pyc
+
+# IDE
+.idea/
+.vscode/
+*.swp
