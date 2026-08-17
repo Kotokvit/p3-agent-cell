@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786956563",
-  "cmd": "python3 -c \"import requests; print(requests.__version__)\" 2>&1 || echo NEED_INSTALL",
+  "id": "p3-1786956574",
+  "cmd": "python3 -c \"import httpx; print(httpx.__version__)\" 2>&1 || echo NEED_INSTALL",
   "cwd": "/home/vitalij",
   "timeout": 10,
-  "ts": 1786956563.3622234
+  "ts": 1786956574.2803478
 }
