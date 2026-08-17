@@ -1,8 +1,8 @@
 {
-  "id": "13fa12b9",
-  "cmd": "\n# Check if gitea is already installed\nwhich gitea 2>/dev/null && echo 'GITEA_EXISTS' || echo 'NEED_INSTALL'\n\n# Check available RAM and disk\necho '---'\nfree -m | head -2\necho '---'\n# Check if port 300",
-  "stdout": "NEED_INSTALL\n---\n               загалом      використ.   вільна    спільна буфери/кеш   дост.\nПам.:          15947        8008        1389         567        7603        7939\n---\nPORT_3000_FREE\nPORT_3001_FREE\n",
-  "stderr": "",
-  "returncode": 0,
-  "timestamp": "2026-08-17T09:47:01"
+  "id": "2cd2abe0",
+  "cmd": "\n# Download and install Gitea (single binary, ~60MB)\necho 'Downloading Gitea...'\nsudo curl -fsSL 'https://dl.gitea.com/gitea/1.24.0/gitea-1.24.0-linux-amd64' -o /usr/local/bin/gitea\nsudo chmod +x /usr",
+  "stdout": "",
+  "stderr": "Timeout 60s",
+  "returncode": -1,
+  "timestamp": "2026-08-17T09:52:24"
 }
