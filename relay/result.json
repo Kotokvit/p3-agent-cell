@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786953274",
-  "cmd": "echo \"=== version ===\" && curl -s http://localhost:3000/api/v1/version && echo \"\" && echo \"=== settings ===\" && curl -s http://localhost:3000/api/v1/settings/api && echo \"\" && echo \"=== repos/search =",
-  "stdout": "=== version ===\n{\"version\":\"1.27.2\"}\n=== settings ===\n{\"max_response_items\":50,\"default_paging_num\":30,\"default_git_trees_per_page\":1000,\"default_max_blob_size\":10485760,\"default_max_response_size\":104857600}\n=== repos/search ===\n{\"ok\":true,\"data\":[]}\n=== admin/orgs ===\n{\"message\":\"token is required\",\"url\":\"http://localhost:3000/api/swagger\"}",
+  "id": "p3-1786953296",
+  "cmd": "sudo gitea admin user create --admin --username p3admin --password P3Gitea2024xSecure --email p3admin@localhost -c /etc/gitea/app.ini 2>&1",
+  "stdout": "2026/08/17 10:55:01 modules/setting/setting.go:196:mustNotRunAsRoot() [F] Gitea is not supposed to be run as root. If you need to use privileged TCP ports please instead use `setcap` and the `cap_net_bind_service` permission.\n",
   "stderr": "",
-  "returncode": 0,
-  "timestamp": "2026-08-17T10:54:43"
+  "returncode": 1,
+  "timestamp": "2026-08-17T10:55:01"
 }
