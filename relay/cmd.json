@@ -1,7 +1,7 @@
 {
-  "id": "2cd2abe0",
-  "cmd": "\n# Download and install Gitea (single binary, ~60MB)\necho 'Downloading Gitea...'\nsudo curl -fsSL 'https://dl.gitea.com/gitea/1.24.0/gitea-1.24.0-linux-amd64' -o /usr/local/bin/gitea\nsudo chmod +x /usr/local/bin/gitea\necho 'Downloaded'\ngitea --version\n\n# Create required directories\nsudo mkdir -p /var/lib/gitea\nsudo mkdir -p /var/log/gitea\nsudo mkdir -p /etc/gitea\nsudo chown -R vitalij:vitalij /var/lib/gitea /var/log/gitea /etc/gitea\n\necho 'GITEA_READY'\n",
+  "id": "eb4ddee2",
+  "cmd": "\n# Check if download completed\nls -la /usr/local/bin/gitea 2>/dev/null && gitea --version 2>/dev/null && echo 'GITEA_INSTALLED' || echo 'NOT_YET'\n# If not, try pacman\npacman -Ss gitea 2>/dev/null | head -5\n",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
-  "timeout": 60,
-  "ts": 1786949238.049837
+  "timeout": 10,
+  "ts": 1786949317.2104845
 }
