@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786953087",
-  "cmd": "sudo systemctl restart gitea && sleep 2 && sudo systemctl status gitea | head -10",
+  "id": "p3-1786953113",
+  "cmd": "curl -s http://localhost:3000/api/v1/nodeinfo 2>/dev/null | head -c 300",
   "cwd": "/home/vitalij",
-  "timeout": 15,
-  "ts": 1786953087.77944
+  "timeout": 10,
+  "ts": 1786953113.9529905
 }
