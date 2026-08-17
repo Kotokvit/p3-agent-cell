@@ -1,8 +1,8 @@
 {
-  "id": "p3-1786953113",
-  "cmd": "curl -s http://localhost:3000/api/v1/nodeinfo 2>/dev/null | head -c 300",
-  "stdout": "Not Found. <a href=\"/\">Go to default page</a>.",
+  "id": "p3-1786953143",
+  "cmd": "sudo cp /etc/gitea/app.ini /etc/gitea/app.ini.bak && echo BACKUP_OK",
+  "stdout": "BACKUP_OK\n",
   "stderr": "",
   "returncode": 0,
-  "timestamp": "2026-08-17T10:52:01"
+  "timestamp": "2026-08-17T10:52:33"
 }
