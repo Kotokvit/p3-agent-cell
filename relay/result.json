@@ -1,8 +1,8 @@
 {
-  "id": "f67e15d0",
-  "cmd": "\n# Kill any hanging sudo/curl processes\npkill -f 'curl.*gitea' 2>/dev/null\npkill -f 'sudo.*curl' 2>/dev/null\n\n# Download to home dir (no sudo needed)\necho 'Downloading Gitea to ~/...'\ncurl -fsSL --con",
-  "stdout": "",
+  "id": "baa3282d",
+  "cmd": "\n# Check AUR for gitea\nwhich yay 2>/dev/null && echo 'HAS_YAY' || echo 'NO_YAY'\nwhich paru 2>/dev/null && echo 'HAS_PARU' || echo 'NO_PARU'\nwhich pacaur 2>/dev/null && echo 'HAS_PACAUR' || echo 'NO_PA",
+  "stdout": "/usr/bin/yay\nHAS_YAY\n/usr/bin/paru\nHAS_PARU\nNO_PACAUR\n---\nextra/forge-sparks 1.0.1-1 (gnome-circle)\n    Simple notifier app with support for Github, GitLab, Gitea and Forgejo\nextra/gitea 1.27.1-2\n    Painless self-hosted Git service, community managed.\nextra/gitea-runner 3.0.0-1\n    Official runner for Gitea\nextra/tea 0.15.0-1\n    A command line tool to interact with Gitea servers\n---\nNO_FILE\n",
   "stderr": "",
-  "returncode": -15,
-  "timestamp": "2026-08-17T09:52:35"
+  "returncode": 0,
+  "timestamp": "2026-08-17T09:52:57"
 }
