@@ -1,7 +1,7 @@
 {
-  "id": "p3-1786953113",
-  "cmd": "curl -s http://localhost:3000/api/v1/nodeinfo 2>/dev/null | head -c 300",
+  "id": "p3-1786953143",
+  "cmd": "sudo cp /etc/gitea/app.ini /etc/gitea/app.ini.bak && echo BACKUP_OK",
   "cwd": "/home/vitalij",
   "timeout": 10,
-  "ts": 1786953113.9529905
+  "ts": 1786953143.9469378
 }
