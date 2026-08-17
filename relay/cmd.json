@@ -1,7 +1,7 @@
 {
-  "id": "6810bcd9",
-  "cmd": "\n# Check Gitea install state\ncurl -s http://localhost:3000/api/v1/settings/api 2>&1\necho '---'\n# Try install endpoint\ncurl -s http://localhost:3000/install 2>&1 | head -5\necho '---'\n# Check if install page exists\ncurl -s -o /dev/null -w 'HTTP %{http_code}' http://localhost:3000/install 2>&1\n",
+  "id": "87d26409",
+  "cmd": "\n# Gitea needs initial setup via POST /install\n# This creates the database and admin user\ncurl -s -X POST 'http://localhost:3000/install'   -H 'Content-Type: application/x-www-form-urlencoded'   -d 'db_type=sqlite3&db_host=localhost&db_user=root&db_passwd=&db_name=gitea&ssl_mode=disable&db_path=/var/lib/gitea/data/gitea.db&app_name=P3+Gitea&repo_root_path=/var/lib/gitea/repos&lfs_root_path=/var/lib/gitea/data/lfs&run_user=gitea&domain=localhost&ssh_port=22&http_port=3000&app_url=http://localhost:3000/&log_root_path=/var/log/gitea&admin_name=p3admin&admin_passwd=p3agentcell2026&admin_email=p3admin@localhost'   -w '\\nHTTP %{http_code}' 2>&1 | tail -5\n\nsleep 3\n\n# Test\ncurl -s http://localhost:3000/api/v1/version 2>&1\n",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
-  "timeout": 10,
-  "ts": 1786949680.8330119
+  "timeout": 20,
+  "ts": 1786949705.7065785
 }
