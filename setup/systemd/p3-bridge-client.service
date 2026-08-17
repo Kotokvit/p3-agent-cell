@@ -1,0 +1,26 @@
+[Unit]
+Description=P3 Bridge Client — Remote Command Bridge
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# ExecStart will be configured by install_pc.sh
+# Example: ExecStart=/usr/bin/python3 /home/user/.p3/bridge/p3_client.py --token TOKEN --poll 10
+EnvironmentFile=%h/.p3/config.env
+WorkingDirectory=%h/.p3/bridge
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=p3-bridge
+
+# Security hardening
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%h/.p3/logs /var/log/p3-bridge
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target
