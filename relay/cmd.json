@@ -1,7 +1,7 @@
 {
-  "id": "d0e69e96",
-  "cmd": "echo '=== P3 Bridge v5 Deploy Test ===' && python3 --version && pip --version 2>/dev/null || echo 'pip: N/A' && which docker && docker --version 2>/dev/null || echo 'docker: N/A' && ls -la ~/Стільниця/ 2>/dev/null || ls -la ~/Desktop/ 2>/dev/null || echo 'no desktop dir'",
+  "id": "0443a26a",
+  "cmd": "curl -s http://localhost:3000/api/v1/version && echo '' && curl -s -H 'Authorization: token 4d4cfffee333b6a83fd350dd8a5dd11cccdcddc7' 'http://localhost:3000/api/v1/repos/search?limit=5' | python3 -c 'import sys,json; d=json.load(sys.stdin); [print(r[\"full_name\"]) for r in d.get(\"data\",d)[:5]]' 2>/dev/null || echo 'Gitea not responding'",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
   "timeout": 15,
-  "ts": 1786966313.3956647
+  "ts": 1786967344.7795107
 }
