@@ -1,7 +1,7 @@
 {
-  "id": "e8ebe215",
-  "cmd": "hostname && uname -r && nproc && free -h | grep Mem && df -h / | tail -1 && ls /home/vitalij/Стільниця/ 2>/dev/null | head -15",
+  "id": "ee3be7b5",
+  "cmd": "df -h / && free -h && nproc && ls /home/vitalij/Стільниця/P3_Engine_repo",
   "cwd": "/home/vitalij/Стільниця/P3_Engine_repo",
   "timeout": 120,
-  "ts": 1789432882.0710123
+  "ts": 1789436635.0735903
 }
